@@ -2,6 +2,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:fys/builders.dart';
+import 'package:fys/main.dart'; //trocar pra outras páginas quando criar (shootnpick e create account)
 
 class MyHomePage extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -129,7 +131,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () => SwitchScreen(context,
+                      ShootPickScreen()), //trocar para a função de log in
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 40, 6, 49),
                     side: BorderSide(
@@ -163,7 +166,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () => SwitchScreen(context,
+                      CreateAccountScreen()), //trocar para função de criar conta
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 51, 225, 255),
                     side: BorderSide(

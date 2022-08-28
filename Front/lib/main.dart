@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 /*
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -72,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 */
-
+/*
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
 
@@ -105,7 +106,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
   }
 }
-
+*/
 class ShootPickScreen extends StatefulWidget {
   const ShootPickScreen({Key? key}) : super(key: key);
 

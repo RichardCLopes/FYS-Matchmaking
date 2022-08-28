@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/main.dart'; //trocar pra outras páginas quando criar (shootnpick e create account)
+import 'package:fys/pages/SignUpPage.dart';
 
 class MyHomePage extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -80,8 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
                 padding: EdgeInsets.only(top: 20, left: 30, right: 30),
                 child: TextFormField(
-                  keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
+                  obscureText: true,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Color.fromARGB(255, 34, 34, 34),
@@ -167,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   onPressed: () => SwitchScreen(context,
-                      CreateAccountScreen()), //trocar para função de criar conta
+                      MySignUpPage()), //trocar para função de criar conta
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 51, 225, 255),
                     side: BorderSide(

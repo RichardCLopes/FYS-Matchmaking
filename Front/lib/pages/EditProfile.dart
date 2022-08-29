@@ -3,20 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/main.dart';
-import 'package:fys/pages/homepage.dart';
-import 'package:fys/pages/ShootNPick.dart';
-import 'package:fys/pages/EditProfile.dart';
 
 double spaceHeight = 10;
 
-class MySignUpPage extends StatefulWidget {
-  const MySignUpPage({Key? key}) : super(key: key);
+class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<MySignUpPage> createState() => _MySignUpPageState();
+  State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
-class _MySignUpPageState extends State<MySignUpPage> {
+class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +35,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
           child: ListView(
             children: [
               Text(
-                'Criar Conta',
+                'Perfil',
                 style: TextStyle(
                   fontFamily: 'alagard',
                   color: Colors.white,
@@ -49,13 +46,10 @@ class _MySignUpPageState extends State<MySignUpPage> {
               SizedBox(
                 height: spaceHeight,
               ),
-              SizedBox(
-                height: spaceHeight,
-              ),
               Container(
                   padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                   child: TextFormField(
-                    keyboardType: TextInputType.name,
+                    keyboardType: TextInputType.url,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       filled: true,
@@ -65,32 +59,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
                             color: Color.fromARGB(255, 51, 225, 255), width: 1),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      hintText: 'Nome',
-                      hintStyle: TextStyle(
-                          color: Color.fromARGB(255, 189, 189, 189),
-                          fontSize: 30,
-                          fontFamily: 'alagard'),
-                      contentPadding: EdgeInsets.all(12.0),
-                    ),
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Color.fromARGB(255, 189, 189, 189),
-                    ),
-                  )),
-              Container(
-                  padding: EdgeInsets.only(top: 10, left: 30, right: 30),
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Color.fromARGB(255, 34, 34, 34),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      hintText: 'e-mail',
+                      hintText: 'Foto',
                       hintStyle: TextStyle(
                           color: Color.fromARGB(255, 189, 189, 189),
                           fontSize: 30,
@@ -108,9 +77,8 @@ class _MySignUpPageState extends State<MySignUpPage> {
               Container(
                   padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                   child: TextFormField(
-                    keyboardType: TextInputType.visiblePassword,
+                    keyboardType: TextInputType.text,
                     textAlign: TextAlign.center,
-                    obscureText: true,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Color.fromARGB(255, 34, 34, 34),
@@ -119,7 +87,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
                             color: Color.fromARGB(255, 51, 225, 255), width: 1),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      hintText: 'Password',
+                      hintText: 'Jogos',
                       hintStyle: TextStyle(
                           color: Color.fromARGB(255, 189, 189, 189),
                           fontSize: 30,
@@ -137,9 +105,8 @@ class _MySignUpPageState extends State<MySignUpPage> {
               Container(
                   padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                   child: TextFormField(
-                    keyboardType: TextInputType.visiblePassword,
+                    keyboardType: TextInputType.text,
                     textAlign: TextAlign.center,
-                    obscureText: true,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Color.fromARGB(255, 34, 34, 34),
@@ -148,15 +115,15 @@ class _MySignUpPageState extends State<MySignUpPage> {
                             color: Color.fromARGB(255, 51, 225, 255), width: 1),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      hintText: 'Confirm Password',
+                      hintText: 'Infomação adicional',
                       hintStyle: TextStyle(
                           color: Color.fromARGB(255, 189, 189, 189),
-                          fontSize: 30,
+                          fontSize: 27,
                           fontFamily: 'alagard'),
                       contentPadding: EdgeInsets.all(12.0),
                     ),
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 23,
                       color: Color.fromARGB(255, 189, 189, 189),
                     ),
                   )),
@@ -166,7 +133,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
               Container(
                   padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                   child: TextFormField(
-                    keyboardType: TextInputType.datetime,
+                    keyboardType: TextInputType.text,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       filled: true,
@@ -176,7 +143,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
                             color: Color.fromARGB(255, 51, 225, 255), width: 1),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      hintText: 'Data de nascimento',
+                      hintText: 'Localidade (opcional)',
                       hintStyle: TextStyle(
                           color: Color.fromARGB(255, 189, 189, 189),
                           fontSize: 25,
@@ -184,7 +151,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
                       contentPadding: EdgeInsets.all(12.0),
                     ),
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 22,
                       color: Color.fromARGB(255, 189, 189, 189),
                     ),
                   )),
@@ -212,10 +179,8 @@ class _MySignUpPageState extends State<MySignUpPage> {
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      SwitchScreen(context, ShootnPickPage());
-                      PushScreen(context, EditProfilePage());
-                    }, //trocar para a função de log in
+                    onPressed: () => SwitchScreen(context,
+                        ShootPickScreen()), //trocar para a função de log in
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromARGB(255, 40, 6, 49),
                       side: BorderSide(
@@ -246,7 +211,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
                           width: 15,
                         ),
                         Text(
-                          "C A N C E L",
+                          "B A C K",
                           style: TextStyle(
                               fontFamily: 'alagard',
                               color: Color.fromARGB(255, 40, 6, 49),
@@ -255,7 +220,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
                         ),
                       ],
                     ),
-                    onPressed: () => SwitchScreen(context, MyHomePage()),
+                    onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromARGB(255, 51, 225, 255),
                       side: BorderSide(

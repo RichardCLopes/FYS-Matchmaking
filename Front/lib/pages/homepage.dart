@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/main.dart'; //trocar pra outras páginas quando criar (shootnpick e create account)
+import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/SignUpPage.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -133,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   onPressed: () => SwitchScreen(context,
-                      ShootPickScreen()), //trocar para a função de log in
+                      ShootnPickPage()), //trocar para a função de log in
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 40, 6, 49),
                     side: BorderSide(

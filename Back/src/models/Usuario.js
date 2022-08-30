@@ -7,6 +7,6 @@ const usuarioSchema = new mongoose.Schema({
   dataNascimento: { type: Date, required: true },
 });
 
-const livros = mongoose.model("livros", livroSchema);
+const usuario = mongoose.model("usuario", usuarioSchema);
 
 export default usuario;

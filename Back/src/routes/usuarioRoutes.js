@@ -4,10 +4,10 @@ import UsuarioController from "../controllers/usuarioController.js";
 const router = express.Router();
 
 router
-  .get("/usuario", UsuarioController.listarLivros)
-  .get("/usuario/:id", UsuarioController.listarLivroPorId)
-  .post("/usuario", UsuarioController.cadastrarLivro)
-  .put("/usuario/:id", UsuarioController.atualizarLivro)
-  .delete("/usuario/:id", UsuarioController.excluirLivro);
+  .get("/usuario", UsuarioController.listarUsuario)
+  .get("/usuario/:id", UsuarioController.listarUsuarioPorId)
+  .post("/usuario", UsuarioController.cadastrarUsuario)
+  .put("/usuario/:id", UsuarioController.atualizarUsuario)
+  .delete("/usuario/:id", UsuarioController.excluirUsuario);
 
 export default router;

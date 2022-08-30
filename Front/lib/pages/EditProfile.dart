@@ -1,8 +1,10 @@
+// ignore: file_names, unnecessary_import
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/main.dart';
+import 'package:fys/pages/SignUpPage.dart';
 
 double spaceHeight = 10;
 
@@ -180,7 +182,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ],
                     ),
                     onPressed: () => SwitchScreen(context,
-                        ShootPickScreen()), //trocar para a função de log in
+                        MySignUpPage()), //trocar para a função de log in
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromARGB(255, 40, 6, 49),
                       side: BorderSide(

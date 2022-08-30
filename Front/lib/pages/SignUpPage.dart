@@ -6,6 +6,8 @@ import 'package:fys/main.dart';
 import 'package:fys/pages/homepage.dart';
 import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/EditProfile.dart';
+// ignore: unused_import
+import 'package:flutter_picker/flutter_picker.dart';
 
 double spaceHeight = 10;
 
@@ -17,6 +19,8 @@ class MySignUpPage extends StatefulWidget {
 }
 
 class _MySignUpPageState extends State<MySignUpPage> {
+  DateTime date = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,7 +180,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
                             color: Color.fromARGB(255, 51, 225, 255), width: 1),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      hintText: 'Data de nascimento',
+                      hintText: '${date.year}/${date.month}/${date.day}',
                       hintStyle: TextStyle(
                           color: Color.fromARGB(255, 189, 189, 189),
                           fontSize: 25,

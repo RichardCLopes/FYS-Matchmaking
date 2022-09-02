@@ -1,16 +1,22 @@
-import usuario from "../models/Usuario.js";
+import usuarios from "../models/Usuarios.js";
 
 class UsuarioController {
 
-    static listarUsuario = (req, res) => {
-        usuario.find((err, usuario) => {
-            res.status(200).json(usuario)
+    static listarUsuarios = (req, res) => {
+        usuarios.find()
+        .populate('jogos')
+        .populate({ path: 'comunidades', select: 'nome & foto',  populate: { path : 'jogo' } })
+        .exec((err, usuarios) => {
+            res.status(200).json(usuarios)
         })
     }
 
     static listarUsuarioPorId = (req, res) => {
         const id  = req.params.id
-        usuario.findById(id, (err, usuario) => {
+        usuarios.findById(id)
+        .populate('jogos')
+        .populate({ path: 'comunidades', select: 'nome & foto',  populate: { path : 'jogo' } })
+        .exec((err, usuario) => {
             if(err) {
                 res.status(400).send({message: `${err.message} - Id do usuario não localizado`})
             } else {
@@ -20,7 +26,7 @@ class UsuarioController {
     }
 
     static cadastrarUsuario = (req, res) => {
-        let usuario = new usuario(req.body);
+        let usuario = new usuarios(req.body);
         usuario.save((err) => {
             if(err) {
                 res.status(500).send({message: `${err.message} - falha ao cadastrar usuario`})
@@ -32,7 +38,7 @@ class UsuarioController {
 
     static atualizarUsuario = (req, res) => {
         const id  = req.params.id
-        usuario.findByIdAndUpdate(id, {$set: req.body}, (err) => {
+        usuarios.findByIdAndUpdate(id, {$set: req.body}, (err) => {
             if(!err) {
                 res.status(200).send({message: 'Usuario atualizado com sucesso'})
             } else {
@@ -43,7 +49,7 @@ class UsuarioController {
 
     static excluirUsuario = (req, res) => {
         const id  = req.params.id
-        usuario.findByIdAndDelete(id, (err) => {
+        usuarios.findByIdAndDelete(id, (err) => {
             if(!err) {
                 res.status(200).send({message: 'Usuario removido com sucesso' })
             } else {

@@ -1,5 +1,8 @@
 import  express  from "express";
-import usuario from "./usuarioRoutes.js";
+import usuarios from "./usuariosRoutes.js";
+import jogos from "./jogosRoutes.js";
+import topicos from "./topicosRoutes.js";
+import comunidades from "./comunidadesRoutes.js";
 
 const routes = (app) => {
     app.route('/').get((req, res) => {
@@ -8,7 +11,10 @@ const routes = (app) => {
 
     app.use(
         express.json(),
-        usuario
+        usuarios,
+        jogos,
+        topicos,
+        comunidades
     )
 }
 

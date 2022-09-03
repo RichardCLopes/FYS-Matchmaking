@@ -7,7 +7,7 @@ import 'package:fys/pages/Comunities.dart';
 import 'package:fys/pages/ShootNPick.dart';
 
 double buttonWidth = 135;
-double buttonHeigth = 40;
+double buttonHeigth = 50;
 double fontsize = 17;
 
 class MessagesPage extends StatefulWidget {

@@ -10,10 +10,29 @@ double buttonWidth = 135;
 double buttonHeigth = 50;
 double fontsize = 17;
 
-Widget Card(String name, String picture) {
+class User {
+  final String name;
+  final int age;
+  final String picture;
+  final String plataforms;
+  final String bio;
+  final String games;
+
+  const User({
+    required this.name,
+    required this.age,
+    this.picture = "assets/images/placeholder.png",
+    this.plataforms = "n/a",
+    this.bio = "n/a",
+    this.games = "n/a",
+  });
+}
+
+Widget Card(User user) {
   return Material(
     type: MaterialType.transparency,
     child: Container(
+      alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
           color: Color.fromARGB(255, 40, 6, 49),
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -21,7 +40,7 @@ Widget Card(String name, String picture) {
               Border.all(color: Color.fromARGB(255, 51, 225, 255), width: 2)),
       height: 440,
       width: 250,
-      child: Column(children: [
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         Expanded(
           flex: 2,
           child: Row(children: [
@@ -32,12 +51,12 @@ Widget Card(String name, String picture) {
                   margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.white, width: 1)),
-                  child: Image.asset(picture, fit: BoxFit.scaleDown)),
+                  child: Image.asset(user.picture, fit: BoxFit.scaleDown)),
             ),
             Expanded(
               flex: 2,
               child: Text(
-                name + ", 24",
+                user.name + ", " + user.age.toString(),
                 style: TextStyle(
                   fontFamily: 'alagard',
                   color: Colors.yellow,
@@ -56,7 +75,7 @@ Widget Card(String name, String picture) {
                 color: Colors.yellow,
               ),
               Text(
-                "PC, XBOX",
+                user.plataforms,
                 style: TextStyle(
                   fontFamily: 'alagard',
                   color: Colors.yellow,
@@ -69,6 +88,7 @@ Widget Card(String name, String picture) {
         Expanded(
           flex: 3,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -81,7 +101,7 @@ Widget Card(String name, String picture) {
                 ),
               ),
               Text(
-                "minhas mains: aiaia, sii, di, sidiisid. Meu rank: 412. qualquer informaçao extra, sei la",
+                user.bio,
                 maxLines: 3,
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -96,6 +116,7 @@ Widget Card(String name, String picture) {
         Expanded(
           flex: 3,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -107,7 +128,7 @@ Widget Card(String name, String picture) {
                 ),
               ),
               Text(
-                "Overwatch, League of Legends, Fortnite",
+                user.games,
                 style: TextStyle(
                   fontFamily: 'alagard',
                   color: Colors.white,
@@ -130,15 +151,27 @@ class ShootnPickPage extends StatefulWidget {
 }
 
 class _ShootnPickPageState extends State<ShootnPickPage> {
+  Widget _mainPart = CircularProgressIndicator();
+  User currentUser = new User(
+          name: "Bobbers",
+          age: 20,
+          plataforms: "PC, XBOX",
+          bio:
+              "minhas mains: aiaia, sii, di, sidiisid. Meu rank: 412. qualquer informaçao extra, sei la",
+          games: "Overwatch, League of Legends, Fortnite"),
+      nextUser = new User(name: "Chad", age: 42);
+
+  @override
+  void initState() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        backgroundColor: Color(0x44000000),
         leading: IconButton(
             onPressed: (() => PushScreen(context, SideMenuScreen())),
             icon: Icon(Icons.menu)),
-        title: Text('shoot pick'),
         actions: <Widget>[
           IconButton(
               onPressed: (() => PushScreen(context, UserProfileScreen())),
@@ -153,11 +186,13 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
             height: 460,
             child: Draggable(
               axis: Axis.horizontal,
-              child: Card("bob", "assets/images/placeholder.png"),
-              feedback: Card("bob", "assets/images/placeholder.png"),
-              childWhenDragging: Card("todd", "assets/images/placeholder.png"),
+              child: Card(currentUser),
+              feedback: Card(currentUser),
+              childWhenDragging: Card(nextUser),
               onDragEnd: (drag) {
                 if (drag.velocity.pixelsPerSecond.dx < 0) {
+                  //current user = next user
+                  //next user = load new user
                   print("left");
                 } else {
                   print("right");

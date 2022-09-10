@@ -2,10 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
-import 'package:fys/main.dart';
 import 'package:fys/pages/Messages.dart';
 import 'package:fys/pages/ShootNPick.dart';
-import 'package:fys/pages/CommunitySearch.dart';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -20,56 +18,57 @@ class Community {
 
 List<Widget> communityWidgetList(List<Community> communityList) {
   var widgetList = <Widget>[];
-  int j = 0;
-  var rowList = <Widget>[];
   for (int I = 0; I < communityList.length; I++) {
-    rowList.add(Container(
-      height: 160,
-      width: 100,
+    widgetList.add(Container(
+      height: 140,
       margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
       decoration:
           BoxDecoration(border: Border.all(color: Colors.white, width: 1)),
-      child: Stack(
+      child: Row(
         children: [
-          Image.asset(
-            communityList[I].picture,
-            fit: BoxFit.scaleDown,
+          Expanded(
+            flex: 3,
+            child: Image.asset(
+              communityList[I].picture,
+              fit: BoxFit.scaleDown,
+            ),
           ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            child: Text(
-              communityList[I].name,
-              style: TextStyle(
-                fontFamily: 'alagard',
-                color: Colors.white,
-                fontSize: 15,
+          Expanded(
+            flex: 5,
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+              child: Text(
+                communityList[I].name,
+                style: TextStyle(
+                  fontFamily: 'alagard',
+                  color: Colors.white,
+                  fontSize: 30,
+                ),
               ),
             ),
-          )
+          ),
+          Expanded(
+              flex: 1,
+              child: IconButton(
+                  onPressed: () {
+                    print("joined community " + communityList[I].name);
+                  },
+                  icon: Icon(Icons.add)))
         ],
       ),
     ));
-    j++;
-    if (j >= 3) {
-      widgetList.add(Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: rowList,
-      ));
-      j = 0;
-      rowList = <Widget>[];
-    }
   }
   return widgetList;
 }
 
-class ComunitiesPage extends StatefulWidget {
-  const ComunitiesPage({Key? key}) : super(key: key);
+class CommunitySearchPage extends StatefulWidget {
+  const CommunitySearchPage({Key? key}) : super(key: key);
 
   @override
-  State<ComunitiesPage> createState() => _ComunitiesPageState();
+  State<CommunitySearchPage> createState() => _CommunitySearchPageState();
 }
 
-class _ComunitiesPageState extends State<ComunitiesPage> {
+class _CommunitySearchPageState extends State<CommunitySearchPage> {
   Widget _mainPart = CircularProgressIndicator();
 
   @override
@@ -81,27 +80,51 @@ class _ComunitiesPageState extends State<ComunitiesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Color(0x44000000),
         leading: IconButton(
-            onPressed: (() => PushScreen(context, SideMenuScreen())),
-            icon: Icon(Icons.menu)),
-        title: IconButton(
-            onPressed: () => PushScreen(context, CommunitySearchPage()),
-            icon: Icon(Icons.add)),
-        actions: <Widget>[
-          IconButton(
-              onPressed: (() => PushScreen(context, UserProfileScreen())),
-              icon: Icon(Icons.account_circle_outlined)),
-        ],
+            onPressed: (() => Navigator.pop(context)),
+            icon: Icon(Icons.arrow_back)),
+        actions: <Widget>[IconButton(onPressed: () {}, icon: Icon(Icons.add))],
       ),
-      body: Container(
-          child: Column(
+      body: Column(
         children: [
           Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              height: 550,
-              child: _mainPart),
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+            height: 550,
+            child: Column(children: [
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Procurar comunidades:",
+                      style: TextStyle(
+                        fontFamily: 'alagard',
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: TextFormField(
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color.fromARGB(255, 34, 34, 34),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
+                        borderRadius: BorderRadius.circular(2.0),
+                      ),
+                    ),
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 189, 189, 189),
+                    ),
+                  )),
+              Expanded(flex: 7, child: _mainPart)
+            ]),
+          ),
           Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -192,7 +215,7 @@ class _ComunitiesPageState extends State<ComunitiesPage> {
             ),
           )
         ],
-      )),
+      ),
     );
   }
 
@@ -205,7 +228,7 @@ class _ComunitiesPageState extends State<ComunitiesPage> {
         new Community(name: "sus", picture: "assets/images/placeholder.png");
     Community e =
         new Community(name: "booo", picture: "assets/images/placeholder.png");
-    final communityList = <Community>[c, d, e, c, d, e, c, d, e, c, d, e];
+    final communityList = <Community>[c, d, e, c, d, e];
     //placeholder =========================================================
     print("comunidades carregadas");
     setState(() {

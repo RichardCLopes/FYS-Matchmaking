@@ -20,6 +20,11 @@ class MySignUpPage extends StatefulWidget {
 
 class _MySignUpPageState extends State<MySignUpPage> {
   DateTime date = DateTime.now();
+  TextEditingController username = new TextEditingController();
+  TextEditingController email = new TextEditingController();
+  TextEditingController password = new TextEditingController();
+  TextEditingController confirmPassword = new TextEditingController();
+  TextEditingController birthdate = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +64,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
               Container(
                   padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                   child: TextFormField(
+                    controller: username,
                     keyboardType: TextInputType.name,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -84,6 +90,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
               Container(
                   padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                   child: TextFormField(
+                    controller: email,
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -112,6 +119,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
               Container(
                   padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                   child: TextFormField(
+                    controller: password,
                     keyboardType: TextInputType.visiblePassword,
                     textAlign: TextAlign.center,
                     obscureText: true,
@@ -141,6 +149,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
               Container(
                   padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                   child: TextFormField(
+                    controller: confirmPassword,
                     keyboardType: TextInputType.visiblePassword,
                     textAlign: TextAlign.center,
                     obscureText: true,
@@ -170,6 +179,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
               Container(
                   padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                   child: TextFormField(
+                    controller: birthdate,
                     keyboardType: TextInputType.datetime,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -216,10 +226,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      SwitchScreen(context, ShootnPickPage());
-                      PushScreen(context, EditProfilePage());
-                    }, //trocar para a função de log in
+                    onPressed: () => SignUpAttempt(),
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromARGB(255, 40, 6, 49),
                       side: BorderSide(
@@ -275,5 +282,14 @@ class _MySignUpPageState extends State<MySignUpPage> {
             ],
           )),
     );
+  }
+
+  void SignUpAttempt() {
+    //check if 18 years old
+    //check if passsword matches confirm password
+    //check with server if information is valid
+    //then:
+    SwitchScreen(context, ShootnPickPage());
+    PushScreen(context, EditProfilePage());
   }
 }

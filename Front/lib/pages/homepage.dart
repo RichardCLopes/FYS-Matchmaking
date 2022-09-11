@@ -16,6 +16,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController username = new TextEditingController();
+  TextEditingController password = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
                 padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                 child: TextFormField(
+                  controller: username,
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
@@ -82,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
                 padding: EdgeInsets.only(top: 20, left: 30, right: 30),
                 child: TextFormField(
+                  controller: password,
                   textAlign: TextAlign.center,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -133,8 +138,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  onPressed: () => SwitchScreen(context,
-                      ShootnPickPage()), //trocar para a função de log in
+                  onPressed: () =>
+                      loginAttempt(), //trocar para a função de log in
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 40, 6, 49),
                     side: BorderSide(
@@ -297,5 +302,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void loginAttempt() {
+    //check with the server
+    //if works:
+    SwitchScreen(context, ShootnPickPage());
+    //else pop up
   }
 }

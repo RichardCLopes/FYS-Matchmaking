@@ -152,17 +152,13 @@ class ShootnPickPage extends StatefulWidget {
 
 class _ShootnPickPageState extends State<ShootnPickPage> {
   Widget _mainPart = CircularProgressIndicator();
-  User currentUser = new User(
-          name: "Bobbers",
-          age: 20,
-          plataforms: "PC, XBOX",
-          bio:
-              "minhas mains: aiaia, sii, di, sidiisid. Meu rank: 412. qualquer informaçao extra, sei la",
-          games: "Overwatch, League of Legends, Fortnite"),
-      nextUser = new User(name: "Chad", age: 42);
+
+  late User currentUser, nextUser;
 
   @override
-  void initState() {}
+  void initState() {
+    loadCards();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,24 +178,9 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
           child: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            height: 460,
-            child: Draggable(
-              axis: Axis.horizontal,
-              child: Card(currentUser),
-              feedback: Card(currentUser),
-              childWhenDragging: Card(nextUser),
-              onDragEnd: (drag) {
-                if (drag.velocity.pixelsPerSecond.dx < 0) {
-                  //current user = next user
-                  //next user = load new user
-                  print("left");
-                } else {
-                  print("right");
-                }
-              },
-            ),
-          ),
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              height: 460,
+              child: _mainPart),
           Container(
             padding: EdgeInsets.fromLTRB(10, 0, 10, 15),
             child: Row(
@@ -210,7 +191,10 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
                   width: 75,
                   child: FloatingActionButton(
                       heroTag: null,
-                      onPressed: () {},
+                      onPressed: () {
+                        updatecards();
+                        rejectUser();
+                      },
                       child: Icon(Icons.cancel)),
                 ),
                 SizedBox(
@@ -222,7 +206,10 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
                   width: 75,
                   child: FloatingActionButton(
                       heroTag: null,
-                      onPressed: () {},
+                      onPressed: () {
+                        updatecards();
+                        acceptUser();
+                      },
                       child: Icon(Icons.thumb_up)),
                 ),
               ],
@@ -318,5 +305,54 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
         ],
       )),
     );
+  }
+
+  @override
+  void loadCards() {
+    print("carregando cards");
+    //placeholder =========================================================
+    currentUser = new User(
+        name: "Bobbers",
+        age: 20,
+        plataforms: "PC, XBOX",
+        bio:
+            "minhas mains: aiaia, sii, di, sidiisid. Meu rank: 412. qualquer informaçao extra, sei la",
+        games: "Overwatch, League of Legends, Fortnite");
+    nextUser = new User(name: "Chad", age: 42);
+    //placeholder =========================================================
+    //get user -> currentUser
+    //get user -> nextUser
+    print("cards carregados");
+    setState(() {
+      _mainPart = Draggable(
+        axis: Axis.horizontal,
+        child: Card(currentUser),
+        feedback: Card(currentUser),
+        childWhenDragging: Card(nextUser),
+        onDragEnd: (drag) {
+          updatecards();
+          if (drag.velocity.pixelsPerSecond.dx < 0) {
+            rejectUser();
+          } else {
+            acceptUser();
+          }
+        },
+      );
+    });
+  }
+
+  void updatecards() {
+    //current user = next user
+    //next user = get user
+    //update server
+    print("current = new, new = get user");
+  }
+
+  void acceptUser() {
+    print("accept!");
+  }
+
+  void rejectUser() {
+    print("reject!");
   }
 }

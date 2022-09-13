@@ -11,6 +11,7 @@ double buttonHeigth = 50;
 double fontsize = 17;
 
 class User {
+  final int id;
   final String name;
   final int age;
   final String picture;
@@ -19,6 +20,7 @@ class User {
   final String games;
 
   const User({
+    required this.id,
     required this.name,
     required this.age,
     this.picture = "assets/images/placeholder.png",
@@ -312,13 +314,14 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
     print("carregando cards");
     //placeholder =========================================================
     currentUser = new User(
+        id: 1,
         name: "Bobbers",
         age: 20,
         plataforms: "PC, XBOX",
         bio:
             "minhas mains: aiaia, sii, di, sidiisid. Meu rank: 412. qualquer informaçao extra, sei la",
         games: "Overwatch, League of Legends, Fortnite");
-    nextUser = new User(name: "Chad", age: 42);
+    nextUser = new User(id: 2, name: "Chad", age: 42);
     //placeholder =========================================================
     //get user -> currentUser
     //get user -> nextUser

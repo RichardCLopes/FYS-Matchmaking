@@ -6,49 +6,59 @@ import 'package:fys/main.dart';
 import 'package:fys/pages/Messages.dart';
 import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/CommunitySearch.dart';
+import 'package:fys/pages/CommunityMain.dart';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
 double fontsize = 17;
 
 class Community {
+  final int id;
   final String name;
   final String picture;
 
-  const Community({required this.name, required this.picture});
+  const Community(
+      {required this.id, required this.name, required this.picture});
 }
 
-List<Widget> communityWidgetList(List<Community> communityList) {
+List<Widget> communityWidgetList(
+    BuildContext context, List<Community> communityList) {
   var widgetList = <Widget>[];
   int j = 0;
   var rowList = <Widget>[];
   for (int I = 0; I < communityList.length; I++) {
-    rowList.add(Container(
-      height: 160,
-      width: 100,
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-      decoration:
-          BoxDecoration(border: Border.all(color: Colors.white, width: 1)),
-      child: Stack(
-        children: [
-          Image.asset(
-            communityList[I].picture,
-            fit: BoxFit.scaleDown,
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            child: Text(
-              communityList[I].name,
-              style: TextStyle(
-                fontFamily: 'alagard',
-                color: Colors.white,
-                fontSize: 15,
+    rowList.add(
+      Container(
+        height: 160,
+        width: 100,
+        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        decoration:
+            BoxDecoration(border: Border.all(color: Colors.white, width: 1)),
+        child: ElevatedButton(
+          onPressed: () =>
+              PushScreen(context, CommunityMainPage(communityList[I].id)),
+          child: Stack(
+            children: [
+              Image.asset(
+                communityList[I].picture,
+                fit: BoxFit.scaleDown,
               ),
-            ),
-          )
-        ],
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  communityList[I].name,
+                  style: TextStyle(
+                    fontFamily: 'alagard',
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
-    ));
+    );
     j++;
     if (j >= 3) {
       widgetList.add(Row(
@@ -199,18 +209,18 @@ class _ComunitiesPageState extends State<ComunitiesPage> {
   void loadCommunities() {
     print("carregando comunidades");
     //placeholder =========================================================
-    Community c =
-        new Community(name: "yoyo", picture: "assets/images/placeholder.png");
-    Community d =
-        new Community(name: "sus", picture: "assets/images/placeholder.png");
-    Community e =
-        new Community(name: "booo", picture: "assets/images/placeholder.png");
+    Community c = new Community(
+        id: 1, name: "yoyo", picture: "assets/images/placeholder.png");
+    Community d = new Community(
+        id: 2, name: "sus", picture: "assets/images/placeholder.png");
+    Community e = new Community(
+        id: 3, name: "booo", picture: "assets/images/placeholder.png");
     final communityList = <Community>[c, d, e, c, d, e, c, d, e, c, d, e];
     //placeholder =========================================================
     print("comunidades carregadas");
     setState(() {
       _mainPart = ListView(
-        children: communityWidgetList(communityList),
+        children: communityWidgetList(context, communityList),
       );
     });
   }

@@ -53,7 +53,10 @@ List<Widget> communityWidgetList(List<Community> communityList) {
                   onPressed: () {
                     print("joined community " + communityList[I].name);
                   },
-                  icon: Icon(Icons.add)))
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  )))
         ],
       ),
     ));

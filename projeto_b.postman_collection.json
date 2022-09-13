@@ -1,0 +1,482 @@
+{
+	"info": {
+		"_postman_id": "f9654f00-a51d-4947-bdad-7656e2ef87de",
+		"name": "projeto_b",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "jogos",
+			"item": [
+				{
+					"name": "GET ALL jogos",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GET ONE jogo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/jogos/631199d48c3dfb228405a442",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jogos",
+								"631199d48c3dfb228405a442"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST  jogo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"final fantasy XIV\",\r\n    \"tipo\": \"MMO RPG\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/jogos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jogos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE jogo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"foto\": \"foto2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/jogos/631250b990946f25f1ac5880",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jogos",
+								"631250b990946f25f1ac5880"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE jogo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/jogos/631199d48c3dfb228405a442",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"jogos",
+								"631199d48c3dfb228405a442"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "usuarios",
+			"item": [
+				{
+					"name": "GET ALL usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ONE usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/usuarios/631196481222b41eb0a128a0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios",
+								"631196481222b41eb0a128a0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST  usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"fabiosgg@gmail.com\",\r\n    \"senha\": \"fabio1234\",\r\n    \"dataNascimento\": \"02-09-1990\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Fabio Gamer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/usuarios/631196481222b41eb0a128a0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios",
+								"631196481222b41eb0a128a0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/usuarios/63117c6d626e7aeebc2c8d55",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios",
+								"63117c6d626e7aeebc2c8d55"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "topicos",
+			"item": [
+				{
+					"name": "GET ALL topicos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/topicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"topicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ONE topico",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/topicos/63119ebf725bab8fd233a076",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"topicos",
+								"63119ebf725bab8fd233a076"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST  topico",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Onde achar Odin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/topicos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"topicos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE topico",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Onde achar leviatan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/topicos/63119ebf725bab8fd233a076",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"topicos",
+								"63119ebf725bab8fd233a076"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE topico",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/topicos/63119ebf725bab8fd233a076",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"topicos",
+								"63119ebf725bab8fd233a076"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comunidades",
+			"item": [
+				{
+					"name": "GET ALL comunidades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/comunidades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comunidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ONE comunidades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/comunidades/63125b1cf83ed97429fd9d5c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comunidades",
+								"63125b1cf83ed97429fd9d5c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST  comunidades",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"fabiosgg@hotmail.com\",\r\n    \"criador\": \"631196481222b41eb0a128a0\",\r\n    \"jogo\": \"63125263b6dd01e6d880ac11\",\r\n    \"foto\": \"foto_comunidade_1\",\r\n    \"membros\": [\"631196481222b41eb0a128a0\"],\r\n    \"topicos\": [\"6312584d86af49c73830a911\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/comunidades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comunidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE comunidaes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Melhor do FF\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/comunidades/63125b1cf83ed97429fd9d5c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comunidades",
+								"63125b1cf83ed97429fd9d5c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE comunidaes",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/comunidades/63125b1cf83ed97429fd9d5c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comunidades",
+								"63125b1cf83ed97429fd9d5c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

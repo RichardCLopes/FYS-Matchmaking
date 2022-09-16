@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
+import 'package:fys/pages/CommunityChat.dart';
 
 double fontsize = 17;
 
@@ -27,6 +28,7 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Color(0x44000000),
         leading: IconButton(
@@ -36,7 +38,7 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
       body: Container(
           child: Column(
         children: [
-          Expanded(flex: 6, child: _mainPart),
+          Expanded(flex: 7, child: _mainPart),
           Expanded(
               flex: 4,
               child: Column(
@@ -44,59 +46,72 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: ElevatedButton(
-                      child: Text(
-                        "Membros",
-                        style: TextStyle(
-                            fontFamily: 'alagard',
-                            color: Color.fromARGB(255, 224, 224, 224),
-                            fontSize: fontsize),
-                        textAlign: TextAlign.center,
-                      ),
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 40, 6, 49),
-                        side: BorderSide(
-                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
-                        // ignore: unnecessary_new
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      child: Text(
-                        "Tópicos",
-                        style: TextStyle(
-                            fontFamily: 'alagard',
-                            color: Color.fromARGB(255, 224, 224, 224),
-                            fontSize: fontsize),
-                        textAlign: TextAlign.center,
-                      ),
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 40, 6, 49),
-                        side: BorderSide(
-                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
-                        // ignore: unnecessary_new
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 1, horizontal: 0),
+                      child: ElevatedButton(
+                        child: Text(
+                          "Membros",
+                          style: TextStyle(
+                              fontFamily: 'alagard',
+                              color: Color.fromARGB(255, 224, 224, 224),
+                              fontSize: fontsize),
+                          textAlign: TextAlign.center,
+                        ),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 40, 6, 49),
+                          side: BorderSide(
+                              color: Color.fromARGB(255, 51, 225, 255),
+                              width: 1),
+                          // ignore: unnecessary_new
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: ElevatedButton(
-                      child: Text(
-                        "Chat",
-                        style: TextStyle(
-                            fontFamily: 'alagard',
-                            color: Color.fromARGB(255, 224, 224, 224),
-                            fontSize: fontsize),
-                        textAlign: TextAlign.center,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 1, horizontal: 0),
+                      child: ElevatedButton(
+                        child: Text(
+                          "Tópicos",
+                          style: TextStyle(
+                              fontFamily: 'alagard',
+                              color: Color.fromARGB(255, 224, 224, 224),
+                              fontSize: fontsize),
+                          textAlign: TextAlign.center,
+                        ),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 40, 6, 49),
+                          side: BorderSide(
+                              color: Color.fromARGB(255, 51, 225, 255),
+                              width: 1),
+                          // ignore: unnecessary_new
+                        ),
                       ),
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 40, 6, 49),
-                        side: BorderSide(
-                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
-                        // ignore: unnecessary_new
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 1, horizontal: 0),
+                      child: ElevatedButton(
+                        child: Text(
+                          "Chat",
+                          style: TextStyle(
+                              fontFamily: 'alagard',
+                              color: Color.fromARGB(255, 224, 224, 224),
+                              fontSize: fontsize),
+                          textAlign: TextAlign.center,
+                        ),
+                        onPressed: () =>
+                            PushScreen(context, CommunityChatPage()),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 40, 6, 49),
+                          side: BorderSide(
+                              color: Color.fromARGB(255, 51, 225, 255),
+                              width: 1),
+                          // ignore: unnecessary_new
+                        ),
                       ),
                     ),
                   ),
@@ -118,6 +133,7 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
         child: Stack(
           children: [
             Container(
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               alignment: Alignment.center,
               child: Image.asset(
                 foto,
@@ -125,13 +141,15 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
               ),
             ),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
               alignment: Alignment.bottomCenter,
               child: Text(
                 nome,
                 style: TextStyle(
+                  backgroundColor: Color(0xff000000),
                   fontFamily: 'alagard',
                   color: Colors.white,
-                  fontSize: 30,
+                  fontSize: 32,
                 ),
               ),
             )

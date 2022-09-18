@@ -3,6 +3,7 @@ import usuarios from "./usuariosRoutes.js";
 import jogos from "./jogosRoutes.js";
 import topicos from "./topicosRoutes.js";
 import comunidades from "./comunidadesRoutes.js";
+import autenticacao from "./authRoutes.js";
 
 const routes = (app) => {
     app.route('/').get((req, res) => {
@@ -14,7 +15,8 @@ const routes = (app) => {
         usuarios,
         jogos,
         topicos,
-        comunidades
+        comunidades,
+        autenticacao
     )
 }
 

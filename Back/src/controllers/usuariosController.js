@@ -1,4 +1,5 @@
 import usuarios from "../models/Usuarios.js";
+import bcrypt from "bcrypt";
 
 class UsuarioController {
 
@@ -25,8 +26,10 @@ class UsuarioController {
         })
     }
 
-    static cadastrarUsuario = (req, res) => {
+    static cadastrarUsuario = async (req, res) => {
+        const custoHash = 12;
         let usuario = new usuarios(req.body);
+        usuario.senha = await bcrypt.hash(req.body.senha, custoHash);
         usuario.save((err) => {
             if(err) {
                 res.status(500).send({message: `${err.message} - falha ao cadastrar usuario`})

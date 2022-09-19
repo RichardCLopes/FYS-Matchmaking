@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
+import 'package:fys/http.dart';
 import 'package:fys/main.dart'; //trocar pra outras páginas quando criar (shootnpick e create account)
 import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/SignUpPage.dart';
@@ -16,7 +17,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController username = new TextEditingController();
+  TextEditingController email = new TextEditingController();
   TextEditingController password = new TextEditingController();
 
   @override
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
                 padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                 child: TextFormField(
-                  controller: username,
+                  controller: email,
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
@@ -71,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Color.fromARGB(255, 51, 225, 255), width: 1),
                       borderRadius: BorderRadius.circular(5.0),
                     ),
-                    hintText: 'Username',
+                    hintText: 'E-mail',
                     hintStyle: TextStyle(
                         color: Color.fromARGB(255, 189, 189, 189),
                         fontSize: 30,
@@ -138,8 +139,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  onPressed: () =>
-                      loginAttempt(), //trocar para a função de log in
+                  onPressed: () => loginAttempt(email.text,
+                      password.text), //trocar para a função de log in
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 40, 6, 49),
                     side: BorderSide(
@@ -304,7 +305,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void loginAttempt() {
+  void loginAttempt(String email, String password) {
+    testServer();
     //check with the server
     //if works:
     SwitchScreen(context, ShootnPickPage());

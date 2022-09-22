@@ -190,7 +190,7 @@ class _MySignUpPageState extends State<MySignUpPage> {
                             color: Color.fromARGB(255, 51, 225, 255), width: 1),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      hintText: '${date.year}/${date.month}/${date.day}',
+                      hintText: 'data de nascimento',
                       hintStyle: TextStyle(
                           color: Color.fromARGB(255, 189, 189, 189),
                           fontSize: 25,

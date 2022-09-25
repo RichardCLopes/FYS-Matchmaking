@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fys/builders.dart';
 
-class CommunityChatPage extends StatefulWidget {
-  const CommunityChatPage({Key? key}) : super(key: key);
-
+class TopicChatPage extends StatefulWidget {
+  TopicChatPage(this.id);
+  final int id;
   @override
-  State<CommunityChatPage> createState() => _CommunityChatPageState();
+  State<TopicChatPage> createState() => _TopicChatPageState(id);
 }
 
-class _CommunityChatPageState extends State<CommunityChatPage> {
+class _TopicChatPageState extends State<TopicChatPage> {
+  _TopicChatPageState(this.id);
+  final int id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class _CommunityChatPageState extends State<CommunityChatPage> {
         actions: <Widget>[
           IconButton(icon: Icon(Icons.close), onPressed: () {}),
         ],
-        title: Text("chat da comunidade"),
+        title: Text("chat do tópico"),
         backgroundColor: Color.fromARGB(255, 40, 6, 49),
       ),
       body: SafeArea(

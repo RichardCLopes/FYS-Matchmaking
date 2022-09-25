@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/pages/CommunityChat.dart';
+import 'package:fys/pages/CommunityTopics.dart';
+import 'package:fys/pages/CommuntyMembers.dart';
 
 double fontsize = 17;
 
@@ -57,7 +59,7 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
                               fontSize: fontsize),
                           textAlign: TextAlign.center,
                         ),
-                        onPressed: () {},
+                        onPressed: () => PushScreen(context, MemberListPage()),
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(255, 40, 6, 49),
                           side: BorderSide(
@@ -80,7 +82,7 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
                               fontSize: fontsize),
                           textAlign: TextAlign.center,
                         ),
-                        onPressed: () {},
+                        onPressed: () => PushScreen(context, topicListPage()),
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(255, 40, 6, 49),
                           side: BorderSide(

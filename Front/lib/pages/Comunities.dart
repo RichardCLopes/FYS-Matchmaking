@@ -37,6 +37,7 @@ List<Widget> communityWidgetList(
         child: ElevatedButton(
           onPressed: () =>
               PushScreen(context, CommunityMainPage(communityList[I].id)),
+          style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
           child: Stack(
             children: [
               Image.asset(

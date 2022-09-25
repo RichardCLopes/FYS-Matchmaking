@@ -306,10 +306,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loginAttempt(String email, String password) {
-    testServer();
+    testServer().then((value) {
+      if (value == 200) SwitchScreen(context, ShootnPickPage());
+    });
     //check with the server
     //if works:
-    SwitchScreen(context, ShootnPickPage());
+
     //else pop up
   }
 }

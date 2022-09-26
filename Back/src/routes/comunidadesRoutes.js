@@ -9,6 +9,7 @@ router
     .get("/comunidades/:id", passport.authenticate('bearer', {session: false }), ComunidadeController.listarComunidadePorId)
     .post("/comunidades", passport.authenticate('bearer', {session: false }), ComunidadeController.cadastrarComunidade)
     .put("/comunidades/:id", passport.authenticate('bearer', {session: false }), ComunidadeController.atualizarComunidade)
+    .put("/comunidades-membros/:id", passport.authenticate('bearer', {session: false }), ComunidadeController.insereMembros)
     .delete("/comunidades/:id", passport.authenticate('bearer', {session: false }), ComunidadeController.excluirComunidade);
 
 export default router;

@@ -78,6 +78,7 @@ class UsuarioController {
     let comunidade = req.body.comunidade;
     let usuario = req.params.id;
     usuarios.findById(usuario).exec((err, usuario) => {
+      console.log(comunidade);
       if (usuario) {
         usuario.comunidades.push(comunidade);
         usuario.save();

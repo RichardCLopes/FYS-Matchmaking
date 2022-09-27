@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f9654f00-a51d-4947-bdad-7656e2ef87de",
+		"_postman_id": "7322c4b7-1a84-4171-8601-79ffe4457f00",
 		"name": "projeto_b",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23095254"
 	},
 	"item": [
 		{
@@ -12,7 +13,10 @@
 					"name": "GET ALL jogos",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -231,6 +235,14 @@
 								"63117c6d626e7aeebc2c8d55"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuarios-comunidade",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
@@ -471,6 +483,47 @@
 							"path": [
 								"comunidades",
 								"63125b1cf83ed97429fd9d5c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT comunidades-membros",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autenticação",
+			"item": [
+				{
+					"name": "auth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"testeEmail@gmail.com\",\r\n    \"senha\": \"testeSenha\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
 							]
 						}
 					},

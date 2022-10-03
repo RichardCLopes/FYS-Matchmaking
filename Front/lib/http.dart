@@ -37,3 +37,9 @@ Future<int> login(String email, String senha) async {
   }
   return response.statusCode;
 }
+
+void Logout() {
+  token = '';
+  userID = '';
+  print("logout feito com sucesso");
+}

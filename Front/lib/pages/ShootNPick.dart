@@ -5,6 +5,7 @@ import 'package:fys/builders.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/Comunities.dart';
 import 'package:fys/pages/Messages.dart';
+import 'package:fys/pages/SideMenu.dart';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -165,11 +166,9 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: sideMenu(),
       appBar: AppBar(
         backgroundColor: Color(0x44000000),
-        leading: IconButton(
-            onPressed: (() => PushScreen(context, SideMenuScreen())),
-            icon: Icon(Icons.menu)),
         actions: <Widget>[
           IconButton(
               onPressed: (() => PushScreen(context, UserProfileScreen())),

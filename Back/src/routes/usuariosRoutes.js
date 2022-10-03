@@ -7,7 +7,7 @@ const router = express.Router();
 router
     .get("/usuarios", passport.authenticate('bearer', {session: false }), UsuarioController.listarUsuarios)
     .get("/usuarios/:id", passport.authenticate('bearer', {session: false }), UsuarioController.listarUsuarioPorId)
-    .post("/usuarios", passport.authenticate('bearer', {session: false }), UsuarioController.cadastrarUsuario)
+    .post("/usuarios", UsuarioController.cadastrarUsuario)
     .put("/usuarios/:id", passport.authenticate('bearer', {session: false }), UsuarioController.atualizarUsuario)
     .put("/usuarios-comunidade/:id", passport.authenticate('bearer', {session: false }), UsuarioController.insereComunidades)
     .delete("/usuarios/:id", passport.authenticate('bearer', {session: false }), UsuarioController.excluirUsuario);

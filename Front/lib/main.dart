@@ -39,50 +39,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({Key? key}) : super(key: key);
-
-  @override
-  State<UserProfileScreen> createState() => _UserProfileScreenState();
-}
-
-class _UserProfileScreenState extends State<UserProfileScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('perfil'),
-      ),
-    );
-  }
-}
-
-class SideMenuScreen extends StatelessWidget {
-  const SideMenuScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('Side Menu')),
-        body: Column(
-          children: [
-            ElevatedButton(
-                onPressed: () => PushScreen(context, ConectionsScreen()),
-                child: Text('Conexões')),
-            ElevatedButton(
-                onPressed: () => PushScreen(context, UserProfileScreen()),
-                child: Text('Editar Perfil')),
-            ElevatedButton(
-                onPressed: () => PushScreen(context, SettingsScreen()),
-                child: Text('Configurações')),
-            ElevatedButton(
-                onPressed: () => SwitchScreen(context, MyHomePage()),
-                child: Text('Sair'))
-          ],
-        ));
-  }
-}
-
 class ConectionsScreen extends StatelessWidget {
   const ConectionsScreen({Key? key}) : super(key: key);
 

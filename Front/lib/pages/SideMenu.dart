@@ -5,6 +5,8 @@ import 'package:fys/http.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/EditProfile.dart';
 import 'package:fys/pages/homepage.dart';
+import 'package:fys/pages/Connections.dart';
+import 'package:fys/pages/Settings.dart';
 
 class sideMenu extends StatelessWidget {
   const sideMenu({Key? key}) : super(key: key);
@@ -20,23 +22,54 @@ class sideMenu extends StatelessWidget {
             child: ListView(
               children: [
                 ListTile(
-                  leading: Icon(Icons.auto_awesome_motion),
-                  title: Text("Conexões"),
-                  onTap: () => PushScreen(context, ConectionsScreen()),
+                  leading: Icon(
+                    Icons.auto_awesome_motion,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "Conexões",
+                    style: TextStyle(
+                      fontFamily: 'alagard',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  onTap: () => PushScreen(context, ConnectionsPage()),
                 ),
                 ListTile(
-                  leading: Icon(Icons.account_circle),
-                  title: Text("Perfil"),
+                  leading: Icon(Icons.account_circle, color: Colors.white),
+                  title: Text(
+                    "Perfil",
+                    style: TextStyle(
+                      fontFamily: 'alagard',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
                   onTap: () => PushScreen(context, EditProfilePage()),
                 ),
                 ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text("Configurações"),
-                  onTap: () => PushScreen(context, SettingsScreen()),
+                  leading: Icon(Icons.settings, color: Colors.white),
+                  title: Text(
+                    "Configurações",
+                    style: TextStyle(
+                      fontFamily: 'alagard',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  onTap: () => PushScreen(context, SettingsMainPage()),
                 ),
                 ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text("Sair"),
+                  leading: Icon(Icons.logout, color: Colors.white),
+                  title: Text(
+                    "Sair",
+                    style: TextStyle(
+                      fontFamily: 'alagard',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
                   onTap: () => logout(context),
                 )
               ],

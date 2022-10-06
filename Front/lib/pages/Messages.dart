@@ -1,11 +1,13 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+
 import 'package:fys/builders.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/Comunities.dart';
 import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/DirectChat.dart';
+import 'package:fys/pages/SideMenu.dart';
+import 'package:fys/pages/EditProfile.dart';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -87,15 +89,13 @@ class _MessagesPageState extends State<MessagesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: sideMenu(),
       appBar: AppBar(
         centerTitle: true,
-        leading: IconButton(
-            onPressed: (() => PushScreen(context, SideMenuScreen())),
-            icon: Icon(Icons.menu)),
         title: Text('Messages'),
         actions: <Widget>[
           IconButton(
-              onPressed: (() => PushScreen(context, UserProfileScreen())),
+              onPressed: (() => PushScreen(context, EditProfilePage())),
               icon: Icon(Icons.account_circle_outlined)),
         ],
       ),

@@ -3,8 +3,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
+import 'package:fys/http.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/SignUpPage.dart';
+import 'package:fys/pages/gameList.dart';
 
 double spaceHeight = 10;
 
@@ -16,6 +18,21 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  Widget _mainpart = CircularProgressIndicator();
+
+  @override
+  void initState() {
+    loadProfile();
+  }
+
+  void loadProfile() {
+    getUser().then((value) {
+      setState(() {
+        //placeholder
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,30 +94,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 height: spaceHeight,
               ),
               Container(
-                  padding: EdgeInsets.only(top: 10, left: 30, right: 30),
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Color.fromARGB(255, 34, 34, 34),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      hintText: 'Jogos',
-                      hintStyle: TextStyle(
-                          color: Color.fromARGB(255, 189, 189, 189),
-                          fontSize: 30,
-                          fontFamily: 'alagard'),
-                      contentPadding: EdgeInsets.all(12.0),
-                    ),
+                height: 70,
+                padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+                child: ElevatedButton(
+                  onPressed: () => PushScreen(context, gameSelectPage()),
+                  child: Text(
+                    "selecionar jogos",
                     style: TextStyle(
-                      fontSize: 25,
-                      color: Color.fromARGB(255, 189, 189, 189),
+                        color: Color.fromARGB(255, 40, 6, 49),
+                        fontSize: 27,
+                        fontFamily: 'alagard'),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 51, 225, 255),
+                    side: BorderSide(
+                        color: Color.fromARGB(255, 40, 6, 49), width: 2),
+                    // ignore: unnecessary_new
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(5.0),
                     ),
-                  )),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: spaceHeight,
               ),
@@ -167,19 +182,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 // ignore: unnecessary_new
                 child: SizedBox.expand(
                   child: ElevatedButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[
-                        Text(
-                          "C O M P L E T E",
-                          style: TextStyle(
-                              fontFamily: 'alagard',
-                              color: Color.fromARGB(255, 224, 224, 224),
-                              fontSize: 20),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
+                    child: Text(
+                      "E D I T A R",
+                      style: TextStyle(
+                          fontFamily: 'alagard',
+                          color: Color.fromARGB(255, 224, 224, 224),
+                          fontSize: 20),
+                      textAlign: TextAlign.left,
                     ),
                     onPressed: () => SwitchScreen(context,
                         MySignUpPage()), //trocar para a função de log in
@@ -213,7 +222,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           width: 15,
                         ),
                         Text(
-                          "B A C K",
+                          "V O L T A R",
                           style: TextStyle(
                               fontFamily: 'alagard',
                               color: Color.fromARGB(255, 40, 6, 49),

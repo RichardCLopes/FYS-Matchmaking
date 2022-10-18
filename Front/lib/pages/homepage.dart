@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
-import 'package:fys/main.dart'; //trocar pra outras páginas quando criar (shootnpick e create account)
 import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/SignUpPage.dart';
 
@@ -139,8 +138,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  onPressed: () => loginAttempt(email.text,
-                      password.text), //trocar para a função de log in
+                  onPressed: () {
+                    if (email.text.length > 0 && password.text.length > 0) {
+                      loginAttempt(email.text, password.text, context);
+                    } else {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Campos vazios'),
+                          content: const Text('Preencha os campos'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  }, //trocar para a função de log in
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 40, 6, 49),
                     side: BorderSide(
@@ -305,9 +321,26 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void loginAttempt(String email, String password) {
-    testServer().then((value) {
-      if (value == 200) SwitchScreen(context, ShootnPickPage());
+  void loginAttempt(String email, String password, BuildContext context) {
+    login(email, password).then((value) {
+      print(value.toString());
+      if (value == 204)
+        SwitchScreen(context, ShootnPickPage());
+      else if (value == 401) {
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Usuário não encontrado'),
+            content: const Text('Email ou senha incorretos'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
     });
     //check with the server
     //if works:

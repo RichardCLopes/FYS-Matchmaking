@@ -7,6 +7,8 @@ import 'package:fys/pages/Messages.dart';
 import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/CommunitySearch.dart';
 import 'package:fys/pages/CommunityMain.dart';
+import 'package:fys/pages/SideMenu.dart';
+import 'package:fys/pages/EditProfile.dart';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -91,18 +93,16 @@ class _ComunitiesPageState extends State<ComunitiesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: sideMenu(),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0x44000000),
-        leading: IconButton(
-            onPressed: (() => PushScreen(context, SideMenuScreen())),
-            icon: Icon(Icons.menu)),
         title: IconButton(
             onPressed: () => PushScreen(context, CommunitySearchPage()),
             icon: Icon(Icons.add)),
         actions: <Widget>[
           IconButton(
-              onPressed: (() => PushScreen(context, UserProfileScreen())),
+              onPressed: (() => PushScreen(context, EditProfilePage())),
               icon: Icon(Icons.account_circle_outlined)),
         ],
       ),

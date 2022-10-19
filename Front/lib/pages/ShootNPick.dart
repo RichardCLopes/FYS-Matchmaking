@@ -5,6 +5,8 @@ import 'package:fys/builders.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/Comunities.dart';
 import 'package:fys/pages/Messages.dart';
+import 'package:fys/pages/SideMenu.dart';
+import 'package:fys/pages/EditProfile.dart';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -165,14 +167,12 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: sideMenu(),
       appBar: AppBar(
         backgroundColor: Color(0x44000000),
-        leading: IconButton(
-            onPressed: (() => PushScreen(context, SideMenuScreen())),
-            icon: Icon(Icons.menu)),
         actions: <Widget>[
           IconButton(
-              onPressed: (() => PushScreen(context, UserProfileScreen())),
+              onPressed: (() => PushScreen(context, EditProfilePage())),
               icon: Icon(Icons.account_circle_outlined)),
         ],
       ),
@@ -321,7 +321,6 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
         bio:
             "minhas mains: aiaia, sii, di, sidiisid. Meu rank: 412. qualquer informaçao extra, sei la",
         games: "Overwatch, League of Legends, Fortnite");
-    nextUser = new User(id: 2, name: "Chad", age: 42);
     //placeholder =========================================================
     //get user -> currentUser
     //get user -> nextUser
@@ -331,7 +330,7 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
         axis: Axis.horizontal,
         child: Card(currentUser),
         feedback: Card(currentUser),
-        childWhenDragging: Card(nextUser),
+        childWhenDragging: Container(),
         onDragEnd: (drag) {
           updatecards();
           if (drag.velocity.pixelsPerSecond.dx < 0) {
@@ -345,8 +344,7 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
   }
 
   void updatecards() {
-    //current user = next user
-    //next user = get user
+    //current user = get user
     //update server
     print("current = new, new = get user");
   }

@@ -78,12 +78,17 @@ class UsuarioController {
 
   static insereComunidades = (req, res) => {
     let comunidade = req.body.comunidade;
-    let usuario = req.params.id;
-    usuarios.findById(usuario).exec((err, usuario) => {
-      console.log(comunidade);
+    let usuarioId = req.params.id;
+    usuarios.findById(usuarioId).exec((err, usuario) => {
       if (usuario) {
-        usuario.comunidades.push(comunidade);
-        usuario.save();
+        if (!usuario.comunidades.includes(comunidade)) {
+          usuario.comunidades.push(comunidade);
+          usuario.save();
+        } else {
+          res.status(400).send({
+            message: `Comunidade já incluída`,
+          });
+        }
         if (err) {
           res.status(400).send({
             message: `${err.message} - Id do usuario não localizado`,

@@ -10,6 +10,7 @@ const usuarioSchema = new mongoose.Schema(
         foto: { type: String },
         jogos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'jogos' }],
         comunidades:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'comunidades', unique: true }],
+        plataformas: [{ type: mongoose.Schema.Types.ObjectId, ref: "plataformas" }],
         bio: { type: String },
         matches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'usuarios' }]
     },

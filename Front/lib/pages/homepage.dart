@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
-import 'package:fys/main.dart'; //trocar pra outras páginas quando criar (shootnpick e create account)
 import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/SignUpPage.dart';
 

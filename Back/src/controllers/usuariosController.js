@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 class UsuarioController {
   static listarUsuarios = (req, res) => {
     usuarios
-      .find()
+      .find({},{senha:0})
       .populate("jogos")
       .populate({
         path: "comunidades",
@@ -18,14 +18,16 @@ class UsuarioController {
 
   static listarUsuarioPorId = (req, res) => {
     const id = req.params.id;
+    console.log("listarUsuarioPorId")
+    console.log("id = ", id)
     usuarios
-      .findById(id)
-      .populate("jogos")
-      .populate({
-        path: "comunidades",
-        select: "nome & foto",
-        populate: { path: "jogo" },
-      })
+      .findById(id, {senha:0})
+      // .populate("jogos")
+      // .populate({
+      //   path: "comunidades",
+      //   select: "nome & foto",
+      //   populate: { path: "jogo" },
+      // })
       .exec((err, usuario) => {
         if (err) {
           res
@@ -92,6 +94,18 @@ class UsuarioController {
       }
     });
   };
+
+  static insereMatches = (usuarioId, usuarioMatch, res) => {
+    usuarios.findByIdAndUpdate( 
+      usuarioId,
+      { $addToSet: { matches: usuarioMatch } },
+      { upsert: true },
+      (err) => {
+        if (err) {
+          res.status(500).send({ message: `${err.message} - falha ao inserir repetido` });
+        }
+    });
+  }
 }
 
 export default UsuarioController;

@@ -9,7 +9,9 @@ const usuarioSchema = new mongoose.Schema(
         dataNascimento: { type: Date, required: true },
         foto: { type: String },
         jogos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'jogos' }],
-        comunidades: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comunidades' }]
+        comunidades:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'comunidades', unique: true }],
+        bio: { type: String },
+        matches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'usuarios' }]
     },
     {
         versionKey: false

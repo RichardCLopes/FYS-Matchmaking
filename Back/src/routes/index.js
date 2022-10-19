@@ -4,6 +4,8 @@ import jogos from "./jogosRoutes.js";
 import topicos from "./topicosRoutes.js";
 import comunidades from "./comunidadesRoutes.js";
 import autenticacao from "./authRoutes.js";
+import matching from "./matchingRoutes.js";
+import repetidos from "./repetidosRoutes.js";
 
 const routes = (app) => {
     app.route('/').get((req, res) => {
@@ -16,7 +18,9 @@ const routes = (app) => {
         jogos,
         topicos,
         comunidades,
-        autenticacao
+        autenticacao,
+        matching,
+        repetidos
     )
 }
 

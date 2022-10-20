@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
+import 'package:fys/http.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/Messages.dart';
 import 'package:fys/pages/ShootNPick.dart';
@@ -15,12 +16,14 @@ double buttonHeigth = 50;
 double fontsize = 17;
 
 class Community {
-  final int id;
+  final String id;
   final String name;
   final String picture;
 
   const Community(
-      {required this.id, required this.name, required this.picture});
+      {required this.id,
+      required this.name,
+      this.picture = "assets/images/placeholder.png"});
 }
 
 List<Widget> communityWidgetList(
@@ -89,6 +92,34 @@ class _ComunitiesPageState extends State<ComunitiesPage> {
   void initState() {
     loadCommunities();
   }
+
+  void loadCommunities() async {
+    print("carregando comunidades");
+    List<Community> communityList = [];
+
+    for (var comm in userCommsID) {
+      await getCommunity(comm).then((value) =>
+          communityList.add(Community(id: value[0], name: value[1])));
+    }
+    print("comunidades carregadas");
+    setState(() {
+      if (communityList.isEmpty) {
+        _mainPart = Text(
+          "não está em nenhuma comunidade!",
+          style: TextStyle(
+              fontFamily: 'alagard',
+              color: Color.fromARGB(255, 224, 224, 224),
+              fontSize: fontsize),
+        );
+      } else {
+        _mainPart = ListView(
+          children: communityWidgetList(context, communityList),
+        );
+      }
+    });
+  }
+
+  getcommns() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -205,24 +236,5 @@ class _ComunitiesPageState extends State<ComunitiesPage> {
         ],
       )),
     );
-  }
-
-  void loadCommunities() {
-    print("carregando comunidades");
-    //placeholder =========================================================
-    Community c = new Community(
-        id: 1, name: "yoyo", picture: "assets/images/placeholder.png");
-    Community d = new Community(
-        id: 2, name: "sus", picture: "assets/images/placeholder.png");
-    Community e = new Community(
-        id: 3, name: "booo", picture: "assets/images/placeholder.png");
-    final communityList = <Community>[c, d, e, c, d, e, c, d, e, c, d, e];
-    //placeholder =========================================================
-    print("comunidades carregadas");
-    setState(() {
-      _mainPart = ListView(
-        children: communityWidgetList(context, communityList),
-      );
-    });
   }
 }

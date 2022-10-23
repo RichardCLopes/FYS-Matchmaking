@@ -66,7 +66,7 @@ List<Widget> communityWidgetList(
       ),
     );
     j++;
-    if (j >= 3) {
+    if (j >= 3 || I == communityList.length - 1) {
       widgetList.add(Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: rowList,

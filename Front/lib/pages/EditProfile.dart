@@ -7,6 +7,7 @@ import 'package:fys/http.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/SignUpPage.dart';
 import 'package:fys/pages/gameList.dart';
+import 'package:fys/pages/plataformList.dart';
 
 double spaceHeight = 10;
 
@@ -99,7 +100,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: ElevatedButton(
                   onPressed: () => PushScreen(context, gameSelectPage()),
                   child: Text(
-                    "selecionar jogos",
+                    "Jogos",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 40, 6, 49),
+                        fontSize: 27,
+                        fontFamily: 'alagard'),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 51, 225, 255),
+                    side: BorderSide(
+                        color: Color.fromARGB(255, 40, 6, 49), width: 2),
+                    // ignore: unnecessary_new
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(5.0),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: spaceHeight,
+              ),
+              SizedBox(
+                height: spaceHeight,
+              ),
+              Container(
+                height: 70,
+                padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+                child: ElevatedButton(
+                  onPressed: () => PushScreen(context, plataformSelectPage()),
+                  child: Text(
+                    "Plataformas",
                     style: TextStyle(
                         color: Color.fromARGB(255, 40, 6, 49),
                         fontSize: 27,

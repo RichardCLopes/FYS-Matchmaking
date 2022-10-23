@@ -11,6 +11,7 @@ String token = "";
 String userID = "";
 List<String> userJogosID = [];
 List<String> userCommsID = [];
+List<String> userPlatsID = [];
 
 Future<int> testServer() async {
   final response = await http.get(Uri.parse(ip + "usuarios"),
@@ -65,12 +66,13 @@ Future<List<dynamic>> getUser() async {
   final response = await http.get(Uri.parse(ip + "usuarios/" + userID),
       headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
   if (response.statusCode == 200) {
-    //userInfo.add(response.body[]);
-    print("body:" + jsonDecode(response.body).toString());
+    userInfo.add(jsonDecode(response.body));
+    print("body:" + userInfo.toString());
     for (var game in jsonDecode(response.body)["jogos"]) userJogosID.add(game);
     for (var comm in jsonDecode(response.body)["comunidades"])
       userCommsID.add(comm);
-    print("jogos do usuario:" + userJogosID.toString());
+    for (var plat in jsonDecode(response.body)["plataformas"])
+      userPlatsID.add(plat);
   } else {
     print("erro code:" + response.statusCode.toString());
   }
@@ -90,6 +92,21 @@ Future<List<dynamic>> getGames() async {
   }
 
   return gameList;
+}
+
+Future<List<dynamic>> getAllPlatforms() async {
+  List<dynamic> platList = [];
+  final response = await http.get(Uri.parse(ip + "plataformas/"),
+      headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
+  if (response.statusCode == 200) {
+    for (var game in jsonDecode(response.body)) {
+      platList.add([game['_id'], game['nome']]);
+    }
+    print(platList.toString());
+    print("sucesso");
+  }
+
+  return platList;
 }
 
 Future<List<dynamic>> getCommunity(String id) async {
@@ -122,5 +139,6 @@ void Logout() {
   userID = '';
   userJogosID = [];
   userCommsID = [];
+  userPlatsID = [];
   print("logout feito com sucesso");
 }

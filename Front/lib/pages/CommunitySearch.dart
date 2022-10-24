@@ -5,6 +5,7 @@ import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
 import 'package:fys/pages/Messages.dart';
 import 'package:fys/pages/ShootNPick.dart';
+import 'package:fys/pages/Comunities.dart';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -21,7 +22,8 @@ class Community {
       this.picture = "assets/images/placeholder.png"});
 }
 
-List<Widget> communityWidgetList(List<Community> communityList) {
+List<Widget> communityWidgetList(
+    BuildContext context, List<Community> communityList) {
   var widgetList = <Widget>[];
   for (int I = 0; I < communityList.length; I++) {
     widgetList.add(Container(
@@ -56,7 +58,12 @@ List<Widget> communityWidgetList(List<Community> communityList) {
               flex: 1,
               child: IconButton(
                   onPressed: () {
-                    print("joined community " + communityList[I].name);
+                    JoinCommunity(communityList[I].id).then((value) {
+                      if (value == 200) {
+                        SwitchScreen(context, ComunitiesPage());
+                        print("joined community " + communityList[I].name);
+                      }
+                    });
                   },
                   icon: Icon(
                     Icons.add,
@@ -236,7 +243,7 @@ class _CommunitySearchPageState extends State<CommunitySearchPage> {
               communityList.add(Community(id: comm["_id"], name: comm["nome"]));
             }
             _mainPart = ListView(
-              children: communityWidgetList(communityList),
+              children: communityWidgetList(context, communityList),
             );
           })
         });

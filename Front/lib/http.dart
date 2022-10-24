@@ -63,6 +63,9 @@ Future<int> createAccount(
 
 Future<List<dynamic>> getUser() async {
   List<dynamic> userInfo = [];
+  userJogosID = [];
+  userCommsID = [];
+  userPlatsID = [];
   final response = await http.get(Uri.parse(ip + "usuarios/" + userID),
       headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
   if (response.statusCode == 200) {
@@ -132,6 +135,18 @@ Future<List<dynamic>> getAllCommunities() async {
     }
   }
   return comms;
+}
+
+Future<int> JoinCommunity(String id) async {
+  userCommsID.add(id);
+  final response = await http.put(Uri.parse(ip + "usuarios/" + userID),
+      headers: {
+        HttpHeaders.authorizationHeader: 'bearer ' + token,
+        "Content-type": "application/json"
+      },
+      body: jsonEncode(<String, dynamic>{"comunidades": userCommsID}));
+  if (response.statusCode != 200) userCommsID.remove(id);
+  return response.statusCode;
 }
 
 void Logout() {

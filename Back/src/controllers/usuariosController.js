@@ -5,12 +5,12 @@ class UsuarioController {
   static listarUsuarios = (req, res) => {
     usuarios
       .find({},{senha:0})
-      .populate("jogos")
-      .populate({
-        path: "comunidades",
-        select: "nome & foto",
-        populate: { path: "jogo" },
-      })
+      // .populate("jogos")
+      // .populate({
+      //   path: "comunidades",
+      //   select: "nome & foto",
+      //   populate: { path: "jogo" },
+      // })
       .exec((err, usuarios) => {
         res.status(200).json(usuarios);
       });

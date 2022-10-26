@@ -4,14 +4,14 @@ class ComunidadeController {
   static listarComunidades = (req, res) => {
     comunidades
       .find()
-      .populate({ path: "criador", select: "nome & foto" })
-      .populate("jogo")
-      .populate({
-        path: "membros",
-        select: "nome & foto",
-        populate: { path: "jogos" },
-      })
-      .populate("topicos")
+      // .populate({ path: "criador", select: "nome & foto" })
+      // .populate("jogo")
+      // .populate({
+      //   path: "membros",
+      //   select: "nome & foto",
+      //   populate: { path: "jogos" },
+      // })
+      // .populate("topicos")
       .exec((err, comunidades) => {
         res.status(200).json(comunidades);
       });
@@ -21,14 +21,14 @@ class ComunidadeController {
     const id = req.params.id;
     comunidades
       .findById(id)
-      .populate({ path: "criador", select: "nome & foto" })
-      .populate("jogo")
-      .populate({
-        path: "membros",
-        select: "nome & foto",
-        populate: { path: "jogos" },
-      })
-      .populate("topicos")
+      // .populate({ path: "criador", select: "nome & foto" })
+      // .populate("jogo")
+      // .populate({
+      //   path: "membros",
+      //   select: "nome & foto",
+      //   populate: { path: "jogos" },
+      // })
+      // .populate("topicos")
       .exec((err, comunidade) => {
         if (err) {
           res.status(400).send({

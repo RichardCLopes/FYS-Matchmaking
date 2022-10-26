@@ -59,7 +59,7 @@ List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
       ),
     );
     j++;
-    if (j >= 3) {
+    if (j >= 3 || I == MemberList.length - 1) {
       widgetList.add(Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: rowList,
@@ -208,7 +208,7 @@ class _MessagesPageState extends State<MessagesPage> {
         Member(id: 2, name: "todd", picture: "assets/images/placeholder.png");
     Member e =
         Member(id: 3, name: "chad", picture: "assets/images/placeholder.png");
-    final memberList = <Member>[c, d, e, c, d, e];
+    final memberList = <Member>[c, d, e, c, d];
     //placeholder
     print("membros carregados");
     setState(() {

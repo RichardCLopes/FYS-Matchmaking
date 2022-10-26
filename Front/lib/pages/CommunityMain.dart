@@ -10,7 +10,7 @@ double fontsize = 17;
 
 class CommunityMainPage extends StatefulWidget {
   CommunityMainPage(this.id);
-  final int id;
+  final String id;
 
   @override
   State<CommunityMainPage> createState() => _CommunityMainPageState(id);
@@ -18,7 +18,7 @@ class CommunityMainPage extends StatefulWidget {
 
 class _CommunityMainPageState extends State<CommunityMainPage> {
   _CommunityMainPageState(this.id);
-  final int id;
+  final String id;
 
   Widget _mainPart = CircularProgressIndicator();
 

@@ -20,7 +20,7 @@ List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
   for (int I = 0; I < MemberList.length; I++) {
     rowList.add(
       Container(
-        height: 160,
+        height: 150,
         width: 100,
         margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
         decoration:

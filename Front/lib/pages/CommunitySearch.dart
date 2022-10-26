@@ -2,21 +2,28 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
+import 'package:fys/http.dart';
 import 'package:fys/pages/Messages.dart';
 import 'package:fys/pages/ShootNPick.dart';
+import 'package:fys/pages/Comunities.dart';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
 double fontsize = 17;
 
 class Community {
+  final String id;
   final String name;
   final String picture;
 
-  const Community({required this.name, required this.picture});
+  const Community(
+      {required this.id,
+      required this.name,
+      this.picture = "assets/images/placeholder.png"});
 }
 
-List<Widget> communityWidgetList(List<Community> communityList) {
+List<Widget> communityWidgetList(
+    BuildContext context, List<Community> communityList) {
   var widgetList = <Widget>[];
   for (int I = 0; I < communityList.length; I++) {
     widgetList.add(Container(
@@ -51,7 +58,12 @@ List<Widget> communityWidgetList(List<Community> communityList) {
               flex: 1,
               child: IconButton(
                   onPressed: () {
-                    print("joined community " + communityList[I].name);
+                    JoinCommunity(communityList[I].id).then((value) {
+                      if (value == 200) {
+                        SwitchScreen(context, ComunitiesPage());
+                        print("joined community " + communityList[I].name);
+                      }
+                    });
                   },
                   icon: Icon(
                     Icons.add,
@@ -223,21 +235,18 @@ class _CommunitySearchPageState extends State<CommunitySearchPage> {
   }
 
   void loadCommunities() {
+    List<Community> communityList = [];
     print("carregando comunidades");
-    //placeholder =========================================================
-    Community c =
-        new Community(name: "yoyo", picture: "assets/images/placeholder.png");
-    Community d =
-        new Community(name: "sus", picture: "assets/images/placeholder.png");
-    Community e =
-        new Community(name: "booo", picture: "assets/images/placeholder.png");
-    final communityList = <Community>[c, d, e, c, d, e];
-    //placeholder =========================================================
+    getAllCommunities().then((value) => {
+          setState(() {
+            for (var comm in value) {
+              communityList.add(Community(id: comm["_id"], name: comm["nome"]));
+            }
+            _mainPart = ListView(
+              children: communityWidgetList(context, communityList),
+            );
+          })
+        });
     print("comunidades carregadas");
-    setState(() {
-      _mainPart = ListView(
-        children: communityWidgetList(communityList),
-      );
-    });
   }
 }

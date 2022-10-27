@@ -76,25 +76,58 @@ class ComunidadeController {
   };
 
   static insereMembros = (req, res) => {
-    let usuario = req.body.usuario;
-    let comunidadeId = req.params.id;
+    console.log("Entrou insereMembros");
+    let comunidadeId = req.body.comunidade;
+    let usuarioId = req.params.id;
     comunidades.findById(comunidadeId).exec((err, comunidade) => {
       if (comunidade) {
-        if (!comunidade.membros.includes(usuario)) {
-          comunidade.membros.push(usuario);
+        if (!comunidade.membros.includes(usuarioId)) {
+          comunidade.membros.push(usuarioId);
           comunidade.save();
+          console.log("inseriu Membro");
+          res.status(200).send(comunidade);
         } else {
           res.status(400).send({
             message: `Usuario já incluído`,
           });
         }
-        if (err) {
-          res.status(400).send({
-            message: `${err.message} - Id do comunidade não localizado`,
-          });
-        } else {
+      } else if (err) {
+        res.status(400).send({
+          message: `${err.message} - Id do comunidade não localizado`,
+        });
+      } else {
+        res.status(400).send({
+          message: `Comunidade não existe`,
+        });
+      }
+    });
+  };
+
+  static removeMembros = (req, res) => {
+    console.log("Entrou removeMembros");
+    let comunidadeId = req.body.comunidade;
+    let usuarioId = req.params.id;
+    comunidades.findById(comunidadeId).exec((err, comunidade) => {
+      if (comunidade) {
+        const index = comunidade.membros.indexOf(usuarioId);
+        if (index > -1) {
+          comunidade.membros.splice(index, 1);
+          console.log("Removeu Membro");
+          comunidade.save();
           res.status(200).send(comunidade);
+        } else {
+          res.status(400).send({
+            message: `Comunidade não possui o membro`,
+          });
         }
+      } else if (err) {
+        res.status(400).send({
+          message: `${err.message} - Id do comunidade não localizado`,
+        });
+      } else {
+        res.status(400).send({
+          message: `Comunidade não existe`,
+        });
       }
     });
   };

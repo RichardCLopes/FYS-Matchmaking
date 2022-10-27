@@ -10,6 +10,7 @@ router
     .post("/usuarios", UsuarioController.cadastrarUsuario)
     .put("/usuarios/:id", passport.authenticate('bearer', {session: false }), UsuarioController.atualizarUsuario)
     .put("/usuarios-comunidade/:id", passport.authenticate('bearer', {session: false }), UsuarioController.insereComunidades)
-    .delete("/usuarios/:id", passport.authenticate('bearer', {session: false }), UsuarioController.excluirUsuario);
+    .delete("/usuarios/:id", passport.authenticate('bearer', {session: false }), UsuarioController.excluirUsuario)
+    .delete("/usuarios-comunidade/:id", passport.authenticate('bearer', {session: false }), UsuarioController.removeComunidades);
 
 export default router;

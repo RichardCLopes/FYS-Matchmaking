@@ -1,4 +1,5 @@
 import usuarios from "../models/Usuarios.js";
+import ComunidadesController from "./comunidadesController.js";
 import bcrypt from "bcrypt";
 
 class UsuarioController {
@@ -77,6 +78,7 @@ class UsuarioController {
   };
 
   static insereComunidades = (req, res) => {
+    console.log("Entrou insereComunidades");
     let comunidade = req.body.comunidade;
     let usuarioId = req.params.id;
     usuarios.findById(usuarioId).exec((err, usuario) => {
@@ -84,18 +86,52 @@ class UsuarioController {
         if (!usuario.comunidades.includes(comunidade)) {
           usuario.comunidades.push(comunidade);
           usuario.save();
+          console.log("adicionou comunidade");
+          ComunidadesController.insereMembros(req, res);
         } else {
           res.status(400).send({
             message: `Comunidade já incluída`,
           });
         }
-        if (err) {
-          res.status(400).send({
-            message: `${err.message} - Id do usuario não localizado`,
-          });
+        
+      } else if (err) {
+        res.status(400).send({
+          message: `${err.message} - Id do usuario não localizado`,
+        });
+      } else {
+        res.status(400).send({
+          message: `usuario não existe`,
+        });
+      }
+    });
+  };
+
+
+  static removeComunidades = (req, res) => {
+    console.log("Entrou removeComunidades");
+    let comunidade = req.body.comunidade;
+    let usuarioId = req.params.id;
+    usuarios.findById(usuarioId).exec((err, usuario) => {
+      if (usuario) {
+        const index = usuario.comunidades.indexOf(comunidade);
+        if (index > -1) {
+          usuario.comunidades.splice(index, 1);
+          usuario.save();
+          console.log("Removeu comunidade");
+          ComunidadesController.removeMembros(req, res);
         } else {
-          res.status(200).send(usuario);
+          res.status(400).send({
+            message: `Usuario não está na comunidade`,
+          });
         }
+      } else if (err) {
+        res.status(400).send({
+          message: `${err.message} - Id do usuario não localizado`,
+        });
+      } else {
+        res.status(400).send({
+          message: `usuario não existe`,
+        });
       }
     });
   };

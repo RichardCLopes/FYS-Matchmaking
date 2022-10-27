@@ -12,6 +12,7 @@ const usuarioSchema = new mongoose.Schema(
         comunidades:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'comunidades', unique: true }],
         plataformas: [{ type: mongoose.Schema.Types.ObjectId, ref: "plataformas" }],
         bio: { type: String },
+        localidade: { type: String },
         matches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'usuarios' }]
     },
     {

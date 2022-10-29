@@ -19,14 +19,14 @@ class plataformSelectPage extends StatefulWidget {
 
 class _plataformSelectPageState extends State<plataformSelectPage> {
   Widget _mainpart = CircularProgressIndicator();
-
+  List<Platform> platlist = [];
+  List<String> newPlatList = [];
   @override
   void initState() {
     loadPlats();
   }
 
   void loadPlats() async {
-    List<Platform> platlist = [];
     await getAllPlatforms().then((value) {
       for (var game in value) {
         platlist.add(Platform(
@@ -45,6 +45,31 @@ class _plataformSelectPageState extends State<plataformSelectPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text("selecione jogos"),
+          actions: <Widget>[
+            IconButton(
+                onPressed: () {
+                  for (var plat in platlist) {
+                    if (userPlatsID.contains(plat.id))
+                      plat.isChecked = true;
+                    else
+                      plat.isChecked = false;
+                  }
+                  setState(() {
+                    _mainpart = ListView(children: PlatListWidget(platlist));
+                  });
+                },
+                icon: Icon(Icons.restore)),
+            IconButton(
+                onPressed: () {
+                  for (var plat in platlist) {
+                    if (plat.isChecked) newPlatList.add(plat.id);
+                  }
+                  UpdateUserPlatforms(newPlatList).then((value) {
+                    if (value == 200) Navigator.pop(context);
+                  });
+                },
+                icon: Icon(Icons.check))
+          ],
         ),
         body: _mainpart);
   }

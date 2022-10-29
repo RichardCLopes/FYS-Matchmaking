@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:fys/builders.dart';
 import 'package:flutter/material.dart';
+import 'package:fys/pages/notifications.dart';
 
 class SettingsMainPage extends StatelessWidget {
   const SettingsMainPage({Key? key}) : super(key: key);
@@ -58,7 +60,7 @@ class SettingsMainPage extends StatelessWidget {
                     fontSize: 46,
                   ),
                 ),
-                onTap: () {},
+                onTap: () => PushScreen(context, NotificationPage()),
               ),
             ),
           ),

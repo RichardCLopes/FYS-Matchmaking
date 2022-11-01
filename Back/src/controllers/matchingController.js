@@ -152,7 +152,7 @@ class MatchingController {
                         { $and: [{jogos: { $elemMatch: { $in: usuario.jogos }}},{_id: { $nin: repetidosLista.usuarioChecado }}]} , 
                         { $and: [{comunidades: { $elemMatch: { $in: usuario.comunidades }}}, {_id: { $nin: repetidosLista.usuarioChecado }}]}
                       ]
-                    })
+                    }, { senha:0 } )
                 .exec((err, usuariob) => {
                   if (err) {      
                     console.log("if erro findOne usuario 4\n")                                                   // se der erro retorna 400

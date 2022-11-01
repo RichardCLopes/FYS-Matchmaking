@@ -2,29 +2,69 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
+import 'package:fys/http.dart';
 import 'package:fys/pages/CommunityChat.dart';
 import 'package:fys/pages/CommunityTopics.dart';
 import 'package:fys/pages/CommuntyMembers.dart';
+import 'package:fys/pages/Comunities.dart';
 
 double fontsize = 17;
 
 class CommunityMainPage extends StatefulWidget {
-  CommunityMainPage(this.id);
+  CommunityMainPage(this.id, this.nome, this.foto);
   final String id;
+  final String nome;
+  final String foto;
 
   @override
-  State<CommunityMainPage> createState() => _CommunityMainPageState(id);
+  State<CommunityMainPage> createState() =>
+      _CommunityMainPageState(id, nome, foto);
 }
 
 class _CommunityMainPageState extends State<CommunityMainPage> {
-  _CommunityMainPageState(this.id);
+  _CommunityMainPageState(this.id, this.nome, this.foto);
   final String id;
+  final String nome;
+  final String foto;
 
   Widget _mainPart = CircularProgressIndicator();
 
   @override
   void initState() {
     loadCommunity();
+  }
+
+  void loadCommunity() {
+    print("comunidade carregada");
+    setState(() {
+      _mainPart = Container(
+        child: Stack(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+              alignment: Alignment.center,
+              child: Image.asset(
+                foto,
+                fit: BoxFit.scaleDown,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                nome,
+                style: TextStyle(
+                  backgroundColor: Color(0xff000000),
+                  fontFamily: 'alagard',
+                  color: Colors.white,
+                  fontSize: 32,
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 
   @override
@@ -36,6 +76,35 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
         leading: IconButton(
             onPressed: (() => Navigator.pop(context)),
             icon: Icon(Icons.arrow_back)),
+        actions: [
+          IconButton(
+              onPressed: () {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Sair da comunidade'),
+                    content: const Text(
+                        'Tem certeza que deseja sair da comunidade?'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          LeaveCommunity(id).then((value) {
+                            if (value == 200) print("saiu da comunidade");
+                            SwitchScreen(context, ComunitiesPage());
+                          });
+                        },
+                        child: const Text('Sim'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: const Text('Não'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              icon: Icon(Icons.exit_to_app))
+        ],
       ),
       body: Container(
           child: Column(
@@ -59,7 +128,8 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
                               fontSize: fontsize),
                           textAlign: TextAlign.center,
                         ),
-                        onPressed: () => PushScreen(context, MemberListPage()),
+                        onPressed: () =>
+                            PushScreen(context, MemberListPage(id)),
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(255, 40, 6, 49),
                           side: BorderSide(
@@ -82,7 +152,7 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
                               fontSize: fontsize),
                           textAlign: TextAlign.center,
                         ),
-                        onPressed: () => PushScreen(context, topicListPage()),
+                        onPressed: () => PushScreen(context, topicListPage(id)),
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(255, 40, 6, 49),
                           side: BorderSide(
@@ -122,42 +192,5 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
         ],
       )),
     );
-  }
-
-  void loadCommunity() {
-    print("carregando comunidade ID " + id.toString());
-    //placeholder
-    String nome = "lol", foto = "assets/images/placeholder.png";
-    //placeholder
-    print("comunidade carregada");
-    setState(() {
-      _mainPart = Container(
-        child: Stack(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-              alignment: Alignment.center,
-              child: Image.asset(
-                foto,
-                fit: BoxFit.scaleDown,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                nome,
-                style: TextStyle(
-                  backgroundColor: Color(0xff000000),
-                  fontFamily: 'alagard',
-                  color: Colors.white,
-                  fontSize: 32,
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    });
   }
 }

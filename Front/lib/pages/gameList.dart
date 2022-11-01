@@ -20,13 +20,14 @@ class gameSelectPage extends StatefulWidget {
 class _gameSelectPageState extends State<gameSelectPage> {
   Widget _mainpart = CircularProgressIndicator();
 
+  List<Game> gamelist = [];
+  List<String> newGameList = [];
   @override
   void initState() {
     loadGames();
   }
 
   void loadGames() async {
-    List<Game> gamelist = [];
     await getGames().then((value) {
       for (var game in value) {
         gamelist.add(Game(
@@ -45,6 +46,31 @@ class _gameSelectPageState extends State<gameSelectPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text("selecione jogos"),
+          actions: <Widget>[
+            IconButton(
+                onPressed: () {
+                  for (var game in gamelist) {
+                    if (userJogosID.contains(game.id))
+                      game.isChecked = true;
+                    else
+                      game.isChecked = false;
+                  }
+                  setState(() {
+                    _mainpart = ListView(children: GameListWidget(gamelist));
+                  });
+                },
+                icon: Icon(Icons.restore)),
+            IconButton(
+                onPressed: () {
+                  for (var game in gamelist) {
+                    if (game.isChecked) newGameList.add(game.id);
+                  }
+                  UpdateUserGames(newGameList).then((value) {
+                    if (value == 200) Navigator.pop(context);
+                  });
+                },
+                icon: Icon(Icons.check))
+          ],
         ),
         body: _mainpart);
   }

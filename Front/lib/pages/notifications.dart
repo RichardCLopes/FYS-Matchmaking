@@ -11,28 +11,15 @@ import 'package:fys/pages/plataformList.dart';
 
 double spaceHeight = 10;
 
-class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
+class NotificationPage extends StatefulWidget {
+  const NotificationPage({Key? key}) : super(key: key);
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _NotificationPageState extends State<NotificationPage> {
   Widget _mainpart = CircularProgressIndicator();
-
-  @override
-  void initState() {
-    loadProfile();
-  }
-
-  void loadProfile() {
-    getUser().then((value) {
-      setState(() {
-        //placeholder
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

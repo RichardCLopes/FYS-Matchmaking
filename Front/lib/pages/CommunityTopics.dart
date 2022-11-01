@@ -2,11 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
+import 'package:fys/http.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/TopicChat.dart';
 
 class Topic {
-  final int id;
+  final String id;
   final String name;
 
   const Topic({required this.id, required this.name});
@@ -46,18 +47,37 @@ List<Widget> TopicWidgetList(context, List<Topic> TopicList) {
 }
 
 class topicListPage extends StatefulWidget {
-  const topicListPage({Key? key}) : super(key: key);
+  topicListPage(this.CommID);
+  final String CommID;
 
   @override
-  State<topicListPage> createState() => _topicListPageState();
+  State<topicListPage> createState() => _topicListPageState(CommID);
 }
 
 class _topicListPageState extends State<topicListPage> {
+  _topicListPageState(this.CommID);
+  final String CommID;
   Widget _mainpart = CircularProgressIndicator();
 
   @override
   void initState() {
     LoadTopicos();
+  }
+
+  void LoadTopicos() {
+    print("carregando tópicos");
+    List<Topic> topicList = [];
+    getCommTopics(CommID).then((value) {
+      for (var topic in value) {
+        topicList.add(Topic(id: topic[0], name: topic[1]));
+      }
+      setState(() {
+        _mainpart = ListView(
+          children: TopicWidgetList(context, topicList),
+        );
+      });
+      print("tópicos carregados");
+    });
   }
 
   @override
@@ -71,21 +91,5 @@ class _topicListPageState extends State<topicListPage> {
       ),
       body: Container(child: _mainpart),
     );
-  }
-
-  void LoadTopicos() {
-    print("carregando tópicos");
-    //placeholder
-    Topic c = Topic(id: 1, name: "não dá");
-    Topic d = Topic(id: 2, name: "personagem favorito");
-    Topic e = Topic(id: 3, name: "oferta de troca");
-    final topicList = <Topic>[c, d, e];
-    //placeholder
-    print("tópicos carregados");
-    setState(() {
-      _mainpart = ListView(
-        children: TopicWidgetList(context, topicList),
-      );
-    });
   }
 }

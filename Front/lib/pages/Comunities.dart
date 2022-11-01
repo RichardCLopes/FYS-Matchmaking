@@ -40,8 +40,10 @@ List<Widget> communityWidgetList(
         decoration:
             BoxDecoration(border: Border.all(color: Colors.white, width: 1)),
         child: ElevatedButton(
-          onPressed: () =>
-              PushScreen(context, CommunityMainPage(communityList[I].id)),
+          onPressed: () => PushScreen(
+              context,
+              CommunityMainPage(communityList[I].id, communityList[I].name,
+                  communityList[I].picture)),
           style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
           child: Stack(
             children: [

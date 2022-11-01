@@ -69,17 +69,72 @@ Future<List<dynamic>> getUser() async {
   final response = await http.get(Uri.parse(ip + "usuarios/" + userID),
       headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
   if (response.statusCode == 200) {
-    userInfo.add(jsonDecode(response.body));
+    final info = jsonDecode(response.body);
+    userInfo = [info["nome"], info["localidade"], info["bio"]];
     print("body:" + userInfo.toString());
-    for (var game in jsonDecode(response.body)["jogos"]) userJogosID.add(game);
-    for (var comm in jsonDecode(response.body)["comunidades"])
-      userCommsID.add(comm);
-    for (var plat in jsonDecode(response.body)["plataformas"])
-      userPlatsID.add(plat);
+    for (var game in info["jogos"]) userJogosID.add(game);
+    for (var comm in info["comunidades"]) userCommsID.add(comm);
+    for (var plat in info["plataformas"]) userPlatsID.add(plat);
   } else {
     print("erro code:" + response.statusCode.toString());
   }
   return userInfo;
+}
+
+Future<List<dynamic>> getOtherUser(String id) async {
+  List<dynamic> userInfo = [id];
+  final response = await http.get(Uri.parse(ip + "usuarios/" + id),
+      headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
+  if (response.statusCode == 200) {
+    final info = jsonDecode(response.body);
+    userInfo.add(info["nome"]);
+    print("body:" + userInfo.toString());
+  } else {
+    print("erro code:" + response.statusCode.toString());
+  }
+  return userInfo;
+}
+
+Future<int> UpdateUser(String nome, String local, String bio) async {
+  final response = await http.put(Uri.parse(ip + "usuarios/" + userID),
+      headers: {
+        HttpHeaders.authorizationHeader: 'bearer ' + token,
+        "Content-type": "application/json"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "nome": nome,
+        "localidade": local,
+        "bio": bio,
+      }));
+  return response.statusCode;
+}
+
+Future<int> UpdateUserGames(List<String> newJogosID) async {
+  final response = await http.put(Uri.parse(ip + "usuarios/" + userID),
+      headers: {
+        HttpHeaders.authorizationHeader: 'bearer ' + token,
+        "Content-type": "application/json"
+      },
+      body: jsonEncode(<String, dynamic>{"jogos": newJogosID}));
+  if (response.statusCode == 200) {
+    print("jogos do usuário atualizados");
+    userJogosID = newJogosID;
+  }
+  return response.statusCode;
+}
+
+Future<int> UpdateUserPlatforms(List<String> newPlatsID) async {
+  final response = await http.put(Uri.parse(ip + "usuarios/" + userID),
+      headers: {
+        HttpHeaders.authorizationHeader: 'bearer ' + token,
+        "Content-type": "application/json"
+      },
+      body: jsonEncode(<String, dynamic>{"plataformas": newPlatsID}));
+  if (response.statusCode == 200) {
+    print("plataformas do usuário atualizados");
+    userPlatsID = newPlatsID;
+  }
+  return response.statusCode;
 }
 
 Future<List<dynamic>> getGames() async {
@@ -125,6 +180,37 @@ Future<List<dynamic>> getCommunity(String id) async {
   return commInfo;
 }
 
+Future<List<dynamic>> getCommMembers(String id) async {
+  List<dynamic> members = [];
+  final response = await http.get(Uri.parse(ip + "comunidades/" + id),
+      headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
+  if (response.statusCode == 200) {
+    final info = jsonDecode(response.body);
+    for (var membID in info["membros"]) {
+      if (membID != userID) {
+        var memberInfo = await getOtherUser(membID);
+        members.add(memberInfo);
+      }
+    }
+  }
+
+  return members;
+}
+
+Future<List<dynamic>> getCommTopics(String id) async {
+  List<dynamic> topics = [];
+  final response = await http.get(Uri.parse(ip + "comunidades/" + id),
+      headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
+  if (response.statusCode == 200) {
+    final topicsID = jsonDecode(response.body)["topicos"];
+    for (var topic in topicsID) {
+      topics.add(await getTopic(topic));
+    }
+  }
+  print("topics: " + topics.toString());
+  return topics;
+}
+
 Future<List<dynamic>> getAllCommunities() async {
   List<dynamic> comms = [];
   final response = await http.get(Uri.parse(ip + "comunidades/"),
@@ -137,15 +223,41 @@ Future<List<dynamic>> getAllCommunities() async {
   return comms;
 }
 
+Future<List<dynamic>> getTopic(String id) async {
+  List<dynamic> topicInfo = [id];
+  final response = await http.get(Uri.parse(ip + "topicos/" + id),
+      headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
+  if (response.statusCode == 200)
+    topicInfo.add(jsonDecode(response.body)["nome"]);
+
+  return topicInfo;
+}
+
 Future<int> JoinCommunity(String id) async {
-  userCommsID.add(id);
-  final response = await http.put(Uri.parse(ip + "usuarios/" + userID),
-      headers: {
-        HttpHeaders.authorizationHeader: 'bearer ' + token,
-        "Content-type": "application/json"
-      },
-      body: jsonEncode(<String, dynamic>{"comunidades": userCommsID}));
+  if (userCommsID.contains(id) == false) userCommsID.add(id);
+  final response =
+      await http.put(Uri.parse(ip + "usuarios-comunidade/" + userID),
+          headers: {
+            HttpHeaders.authorizationHeader: 'bearer ' + token,
+            "Content-type": "application/json"
+          },
+          body: jsonEncode(<String, dynamic>{"comunidade": id}));
   if (response.statusCode != 200) userCommsID.remove(id);
+
+  return response.statusCode;
+}
+
+Future<int> LeaveCommunity(String id) async {
+  userCommsID.remove(id);
+  final response =
+      await http.delete(Uri.parse(ip + "usuarios-comunidade/" + userID),
+          headers: {
+            HttpHeaders.authorizationHeader: 'bearer ' + token,
+            "Content-type": "application/json"
+          },
+          body: jsonEncode(<String, dynamic>{"comunidade": id}));
+
+  if (response.statusCode != 200) userCommsID.add(id);
   return response.statusCode;
 }
 

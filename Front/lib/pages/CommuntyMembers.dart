@@ -3,14 +3,18 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
+import 'package:fys/http.dart';
 import 'package:fys/main.dart';
 
 class Member {
-  final int id;
+  final String id;
   final String name;
   final String picture;
 
-  const Member({required this.id, required this.name, required this.picture});
+  const Member(
+      {required this.id,
+      required this.name,
+      this.picture = "assets/images/placeholder.png"});
 }
 
 List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
@@ -51,7 +55,7 @@ List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
       ),
     );
     j++;
-    if (j >= 3) {
+    if (j >= 3 || I == MemberList.length - 1) {
       widgetList.add(Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: rowList,
@@ -64,18 +68,36 @@ List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
 }
 
 class MemberListPage extends StatefulWidget {
-  const MemberListPage({Key? key}) : super(key: key);
+  MemberListPage(this.id);
+  final String id;
 
   @override
-  State<MemberListPage> createState() => _MemberListPageState();
+  State<MemberListPage> createState() => _MemberListPageState(id);
 }
 
 class _MemberListPageState extends State<MemberListPage> {
+  _MemberListPageState(this.id);
+  final String id;
   Widget _mainpart = CircularProgressIndicator();
 
   @override
   void initState() {
     LoadMembers();
+  }
+
+  void LoadMembers() {
+    print("carregando membros");
+    List<Member> memberList = [];
+
+    getCommMembers(id).then((value) {
+      for (var memb in value) {
+        memberList.add(Member(id: memb[0], name: memb[1]));
+      }
+      setState(() {
+        _mainpart = ListView(children: MemberWidgetList(context, memberList));
+        print("membros carregados");
+      });
+    });
   }
 
   @override
@@ -88,22 +110,5 @@ class _MemberListPageState extends State<MemberListPage> {
       ),
       body: Container(child: _mainpart),
     );
-  }
-
-  void LoadMembers() {
-    print("carregando membros");
-    //placeholder
-    Member c =
-        Member(id: 1, name: "bob", picture: "assets/images/placeholder.png");
-    Member d =
-        Member(id: 2, name: "todd", picture: "assets/images/placeholder.png");
-    Member e =
-        Member(id: 3, name: "chad", picture: "assets/images/placeholder.png");
-    final memberList = <Member>[c, d, e, c, d, e];
-    //placeholder
-    print("membros carregados");
-    setState(() {
-      _mainpart = ListView(children: MemberWidgetList(context, memberList));
-    });
   }
 }

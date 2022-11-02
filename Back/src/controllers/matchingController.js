@@ -153,6 +153,8 @@ class MatchingController {
                         { $and: [{comunidades: { $elemMatch: { $in: usuario.comunidades }}}, {_id: { $nin: repetidosLista.usuarioChecado }}]}
                       ]
                     }, { senha:0 } )
+                .populate({ path: "plataformas", select: "nome" })
+                .populate({ path: "jogos", select: "nome" })
                 .exec((err, usuariob) => {
                   if (err) {      
                     console.log("if erro findOne usuario 4\n")                                                   // se der erro retorna 400

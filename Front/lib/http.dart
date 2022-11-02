@@ -56,9 +56,8 @@ Future<int> createAccount(
   if (response.statusCode == 201) {
     await login(email, senha);
     print("conta criada!");
-    return response.statusCode;
-  } else
-    return response.statusCode;
+  }
+  return response.statusCode;
 }
 
 Future<List<dynamic>> getUser() async {
@@ -93,6 +92,69 @@ Future<List<dynamic>> getOtherUser(String id) async {
     print("erro code:" + response.statusCode.toString());
   }
   return userInfo;
+}
+
+Future<List<dynamic>> getMatchCandidate() async {
+  List<dynamic> match = [];
+  final response = await http.post(Uri.parse(ip + "matching-proximo"),
+      headers: {
+        HttpHeaders.authorizationHeader: 'bearer ' + token,
+        "Content-type": "application/json"
+      },
+      body: jsonEncode(<String, dynamic>{"usuarioBase": userID}));
+  final matchinfo = json.decode(response.body);
+  print("matchinfo: " + matchinfo.toString());
+  if (response.statusCode == 200) {
+    match = [
+      matchinfo['_id'],
+      matchinfo['nome'],
+      matchinfo["dataNascimento"],
+      matchinfo["plataformas"],
+      matchinfo["bio"],
+      matchinfo["jogos"]
+    ];
+  }
+  return match;
+}
+
+Future<List<dynamic>> sendMatch(String id, bool accepted) async {
+  List<dynamic> newUserInfo = [];
+  final response = await http.post(Uri.parse(ip + "matching-proximo"),
+      headers: {
+        HttpHeaders.authorizationHeader: 'bearer ' + token,
+        "Content-type": "application/json"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "usuarioBase": userID,
+        "usuarioChecado": id,
+        "resposta": accepted,
+      }));
+  final matchinfo = json.decode(response.body);
+  print("matchinfo: " + matchinfo.toString());
+  if (response.statusCode == 200) {
+    newUserInfo = [
+      matchinfo['_id'],
+      matchinfo['nome'],
+      matchinfo["dataNascimento"],
+      matchinfo["plataformas"],
+      matchinfo["bio"],
+      matchinfo["jogos"]
+    ];
+  }
+  return newUserInfo;
+}
+
+Future<List<dynamic>> getMatches() async {
+  List<dynamic> matches = [];
+  final response = await http.get(Uri.parse(ip + "usuarios/" + userID),
+      headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
+
+  if (response.statusCode == 200) {
+    for (var match in jsonDecode(response.body)["matches"]) {
+      matches.add(await getOtherUser(match));
+    }
+  }
+  return matches;
 }
 
 Future<int> UpdateUser(String nome, String local, String bio) async {

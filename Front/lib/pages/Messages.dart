@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:fys/builders.dart';
+import 'package:fys/http.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/Comunities.dart';
 import 'package:fys/pages/ShootNPick.dart';
@@ -14,11 +15,14 @@ double buttonHeigth = 50;
 double fontsize = 17;
 
 class Member {
-  final int id;
+  final String id;
   final String name;
   final String picture;
 
-  const Member({required this.id, required this.name, required this.picture});
+  const Member(
+      {required this.id,
+      required this.name,
+      this.picture = "assets/images/placeholder.png"});
 }
 
 List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
@@ -201,18 +205,24 @@ class _MessagesPageState extends State<MessagesPage> {
 
   void LoadMembers() {
     print("carregando membros");
-    //placeholder
-    Member c =
-        Member(id: 1, name: "bob", picture: "assets/images/placeholder.png");
-    Member d =
-        Member(id: 2, name: "todd", picture: "assets/images/placeholder.png");
-    Member e =
-        Member(id: 3, name: "chad", picture: "assets/images/placeholder.png");
-    final memberList = <Member>[c, d, e, c, d];
-    //placeholder
+    List<Member> memberList = [];
     print("membros carregados");
-    setState(() {
-      _mainpart = ListView(children: MemberWidgetList(context, memberList));
+    getMatches().then((value) {
+      setState(() {
+        for (var member in value) {
+          memberList.add(Member(id: member[0], name: member[1]));
+        }
+        if (memberList.isNotEmpty)
+          _mainpart = ListView(children: MemberWidgetList(context, memberList));
+        else
+          _mainpart = Text(
+            "não tem nenhum match!",
+            style: TextStyle(
+                fontFamily: 'alagard',
+                color: Color.fromARGB(255, 224, 224, 224),
+                fontSize: fontsize),
+          );
+      });
     });
   }
 }

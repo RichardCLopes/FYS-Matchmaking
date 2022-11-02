@@ -7,7 +7,7 @@ import 'package:fys/builders.dart';
 
 class chatPage extends StatefulWidget {
   chatPage(this.id);
-  final int id;
+  final String id;
   @override
   State<chatPage> createState() => _chatPageState(this.id);
 }
@@ -15,7 +15,7 @@ class chatPage extends StatefulWidget {
 class _chatPageState extends State<chatPage> {
   _chatPageState(this.id);
 
-  final int id;
+  final String id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -2,20 +2,22 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
+import 'package:fys/http.dart';
 import 'package:fys/main.dart';
 import 'package:fys/pages/Comunities.dart';
 import 'package:fys/pages/Messages.dart';
 import 'package:fys/pages/SideMenu.dart';
 import 'package:fys/pages/EditProfile.dart';
+import 'package:age_calculator/age_calculator.dart';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
 double fontsize = 17;
 
 class User {
-  final int id;
+  final String id;
   final String name;
-  final int age;
+  final String age;
   final String picture;
   final String plataforms;
   final String bio;
@@ -26,9 +28,9 @@ class User {
     required this.name,
     required this.age,
     this.picture = "assets/images/placeholder.png",
-    this.plataforms = "n/a",
-    this.bio = "n/a",
-    this.games = "n/a",
+    required this.plataforms,
+    required this.bio,
+    required this.games,
   });
 }
 
@@ -60,7 +62,7 @@ Widget Card(User user) {
             Expanded(
               flex: 2,
               child: Text(
-                user.name + ", " + user.age.toString(),
+                user.name + ", " + user.age,
                 style: TextStyle(
                   fontFamily: 'alagard',
                   color: Colors.yellow,
@@ -78,12 +80,17 @@ Widget Card(User user) {
                 Icons.computer,
                 color: Colors.yellow,
               ),
-              Text(
-                user.plataforms,
-                style: TextStyle(
-                  fontFamily: 'alagard',
-                  color: Colors.yellow,
-                  fontSize: 25,
+              Container(
+                width: 200,
+                child: Text(
+                  user.plataforms,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'alagard',
+                    color: Colors.yellow,
+                    fontSize: 24,
+                  ),
                 ),
               ),
             ],
@@ -107,6 +114,7 @@ Widget Card(User user) {
               Text(
                 user.bio,
                 maxLines: 3,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontFamily: 'alagard',
@@ -133,6 +141,8 @@ Widget Card(User user) {
               ),
               Text(
                 user.games,
+                maxLines: 3,
+                overflow: TextOverflow.fade,
                 style: TextStyle(
                   fontFamily: 'alagard',
                   color: Colors.white,
@@ -157,7 +167,7 @@ class ShootnPickPage extends StatefulWidget {
 class _ShootnPickPageState extends State<ShootnPickPage> {
   Widget _mainPart = CircularProgressIndicator();
 
-  late User currentUser, nextUser;
+  late User currentUser;
 
   @override
   void initState() {
@@ -180,7 +190,7 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
           child: Column(
         children: [
           Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: EdgeInsets.symmetric(vertical: 10),
               height: 460,
               child: _mainPart),
           Container(
@@ -194,8 +204,10 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
                   child: FloatingActionButton(
                       heroTag: null,
                       onPressed: () {
-                        updatecards();
-                        rejectUser();
+                        sendMatch(currentUser.id, false).then((value) {
+                          updatecards(value);
+                          print("rejected");
+                        });
                       },
                       child: Icon(Icons.cancel)),
                 ),
@@ -209,8 +221,10 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
                   child: FloatingActionButton(
                       heroTag: null,
                       onPressed: () {
-                        updatecards();
-                        acceptUser();
+                        sendMatch(currentUser.id, true).then((value) {
+                          updatecards(value);
+                          print("accepted");
+                        });
                       },
                       child: Icon(Icons.thumb_up)),
                 ),
@@ -312,48 +326,88 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
   @override
   void loadCards() {
     print("carregando cards");
-    //placeholder =========================================================
-    currentUser = new User(
-        id: 1,
-        name: "Bobbers",
-        age: 20,
-        plataforms: "PC, XBOX",
-        bio:
-            "minhas mains: aiaia, sii, di, sidiisid. Meu rank: 412. qualquer informaçao extra, sei la",
-        games: "Overwatch, League of Legends, Fortnite");
-    //placeholder =========================================================
-    //get user -> currentUser
-    //get user -> nextUser
-    print("cards carregados");
-    setState(() {
-      _mainPart = Draggable(
-        axis: Axis.horizontal,
-        child: Card(currentUser),
-        feedback: Card(currentUser),
-        childWhenDragging: Container(),
-        onDragEnd: (drag) {
-          updatecards();
-          if (drag.velocity.pixelsPerSecond.dx < 0) {
-            rejectUser();
-          } else {
-            acceptUser();
-          }
-        },
-      );
+    getMatchCandidate().then((value) {
+      updatecards(value);
     });
   }
 
-  void updatecards() {
-    //current user = get user
-    //update server
-    print("current = new, new = get user");
-  }
+  void updatecards(List<dynamic> value) {
+    print(value.toString());
+    print("cards carregados");
 
-  void acceptUser() {
-    print("accept!");
-  }
-
-  void rejectUser() {
-    print("reject!");
+    final age = AgeCalculator.age(DateTime.parse(value[2])).years;
+    String plataformas = "n/a";
+    if (!value[3].isEmpty) {
+      plataformas = '';
+      for (int I = 0; I < value[3].length; I++) {
+        plataformas += value[3][I];
+        if (I != value[3].length - 1) plataformas += ", ";
+      }
+    }
+    String bio = "n/a";
+    if (value[4] != null) bio = value[4];
+    setState(() {
+      currentUser = User(
+          id: value[0],
+          name: value[1],
+          age: age.toString(),
+          plataforms: plataformas,
+          bio: bio,
+          games: value[5].toString());
+      _mainPart = Container(
+        alignment: Alignment.center,
+        child: Stack(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DragTarget<String>(
+                  builder: (context, candidateData, rejectedData) {
+                    return Container(
+                      height: 500,
+                      width: 120,
+                      // color: Colors.white,
+                    );
+                  },
+                  onAccept: (String id) {
+                    sendMatch(currentUser.id, false).then((value) {
+                      updatecards(value);
+                      print("rejected");
+                    });
+                  },
+                ),
+                DragTarget<String>(
+                  builder: (context, candidateData, rejectedData) {
+                    return Container(
+                      height: 500,
+                      width: 120,
+                      // color: Colors.white,
+                    );
+                  },
+                  onAccept: (String id) {
+                    sendMatch(currentUser.id, true).then((value) {
+                      updatecards(value);
+                      print("accepted");
+                    });
+                  },
+                ),
+              ],
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Draggable<String>(
+                axis: Axis.horizontal,
+                data: currentUser.id,
+                child: Card(currentUser),
+                feedback: Card(currentUser),
+                childWhenDragging: Container(
+                  width: 250,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

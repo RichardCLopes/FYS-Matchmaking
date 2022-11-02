@@ -112,8 +112,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       setState(() {
         previous = value;
         nome.text = value[0];
-        local.text = value[1];
-        bio.text = value[2];
+        if (value[1] != null) local.text = value[1];
+        if (value[2] != null) bio.text = value[2];
         editButton = edittingButton();
       });
     });

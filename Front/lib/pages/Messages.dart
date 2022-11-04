@@ -95,6 +95,7 @@ class _MessagesPageState extends State<MessagesPage> {
     return Scaffold(
       drawer: sideMenu(),
       appBar: AppBar(
+        backgroundColor: Color(0x44000000),
         centerTitle: true,
         title: Text('Messages'),
         actions: <Widget>[

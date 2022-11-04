@@ -86,7 +86,14 @@ Future<List<dynamic>> getOtherUser(String id) async {
       headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
   if (response.statusCode == 200) {
     final info = jsonDecode(response.body);
-    userInfo.add(info["nome"]);
+    userInfo = [
+      info["_id"],
+      info["nome"],
+      info["dataNascimento"],
+      info["plataformas"],
+      info["bio"],
+      info["jogos"]
+    ];
     print("body:" + userInfo.toString());
   } else {
     print("erro code:" + response.statusCode.toString());

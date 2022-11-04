@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
 import 'package:fys/main.dart';
+import 'package:fys/pages/UserProfile.dart';
 
 class Member {
   final String id;
@@ -30,7 +31,9 @@ List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
         decoration:
             BoxDecoration(border: Border.all(color: Colors.white, width: 1)),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            PushScreen(context, userProfilePage(MemberList[I].id));
+          },
           style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
           child: Stack(
             children: [

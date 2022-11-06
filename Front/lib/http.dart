@@ -36,7 +36,7 @@ Future<int> login(String email, String senha) async {
   if (response.statusCode == 204) {
     token = response.headers['authorization'].toString();
     userID = JwtDecoder.decode(token)['id'];
-    getUser();
+    await getUser();
     print("token: " + token);
     print("userID: " + userID);
   }
@@ -86,7 +86,14 @@ Future<List<dynamic>> getOtherUser(String id) async {
       headers: {HttpHeaders.authorizationHeader: 'bearer ' + token});
   if (response.statusCode == 200) {
     final info = jsonDecode(response.body);
-    userInfo.add(info["nome"]);
+    userInfo = [
+      info["_id"],
+      info["nome"],
+      info["dataNascimento"],
+      info["plataformas"],
+      info["bio"],
+      info["jogos"]
+    ];
     print("body:" + userInfo.toString());
   } else {
     print("erro code:" + response.statusCode.toString());

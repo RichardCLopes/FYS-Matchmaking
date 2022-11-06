@@ -342,9 +342,5 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       }
     });
-    //check with the server
-    //if works:
-
-    //else pop up
   }
 }

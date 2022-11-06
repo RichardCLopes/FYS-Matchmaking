@@ -70,7 +70,26 @@ class sideMenu extends StatelessWidget {
                       fontSize: 20,
                     ),
                   ),
-                  onTap: () => logout(context),
+                  onTap: () {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Desconectar'),
+                        content:
+                            const Text('Tem certeza que deseja desconectar?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => logout(context),
+                            child: const Text('Sim'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'OK'),
+                            child: const Text('Não'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 )
               ],
             )),

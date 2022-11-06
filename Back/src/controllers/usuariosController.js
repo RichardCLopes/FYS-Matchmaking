@@ -23,6 +23,8 @@ class UsuarioController {
     console.log("id = ", id)
     usuarios
       .findById(id, {senha:0})
+      .populate({ path: "plataformas", select: "nome" })
+      .populate({ path: "jogos", select: "nome" })
       // .populate("jogos")
       // .populate({
       //   path: "comunidades",

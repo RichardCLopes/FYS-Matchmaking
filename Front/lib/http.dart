@@ -36,7 +36,7 @@ Future<int> login(String email, String senha) async {
   if (response.statusCode == 204) {
     token = response.headers['authorization'].toString();
     userID = JwtDecoder.decode(token)['id'];
-    getUser();
+    await getUser();
     print("token: " + token);
     print("userID: " + userID);
   }

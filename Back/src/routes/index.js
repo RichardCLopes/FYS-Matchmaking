@@ -7,7 +7,7 @@ import comunidades from "./comunidadesRoutes.js";
 import autenticacao from "./authRoutes.js";
 import matching from "./matchingRoutes.js";
 import repetidos from "./repetidosRoutes.js";
-
+import denunciados from "./denunciadosRoutes.js";
 
 const routes = (app) => {
     app.route('/').get((req, res) => {
@@ -23,7 +23,8 @@ const routes = (app) => {
         comunidades,
         autenticacao,
         matching,
-        repetidos
+        repetidos,
+        denunciados
     )
 }
 

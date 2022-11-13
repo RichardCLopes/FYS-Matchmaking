@@ -4,6 +4,8 @@ import usuarios from "../models/Usuarios.js";
 import RepetidoController from "./repetidosController.js";
 import UsuarioController from "./usuariosController.js";
 
+import mongoose from "mongoose"
+
 
 class MatchingController {
   static listarMatching = (req, res) => {
@@ -54,6 +56,7 @@ class MatchingController {
     });
   };
 
+  // excluir dado da tabela matching
   static excluirMatchingPorId = (id, res) => {
     console.log("excluirMatchingPorId = ", id)
     matching.findByIdAndDelete(id, (err) => {
@@ -63,6 +66,94 @@ class MatchingController {
     });
   };
 
+  //remover usuario da lista de matchs
+  static excluirMatch = (req, res) => {
+    const usuarioId = req.params.id;
+    var usuarioIdObject = mongoose.Types.ObjectId(usuarioId);
+    const usuarioRemovido = req.body.usuarioRemovido;
+    var usuarioRemovidoObject = mongoose.Types.ObjectId(usuarioRemovido);
+    usuarios.findById(usuarioId).exec((err, usuario) => {
+      if (usuario) {
+        console.log("usuarioRemovido = ", usuarioRemovido)
+        console.log("usuarioRemovidoObject = ", usuarioRemovidoObject)
+        console.log("matches = ", usuario.matches)
+        const index = usuario.matches.indexOf(usuarioRemovidoObject);
+        console.log("index = ", index)
+        if (index > -1) {
+          usuario.matches.splice(index, 1);
+          usuario.save();
+          usuarios.findById(usuarioRemovido).exec((err, usuario) => {
+            if (usuario) {
+              console.log("matches2 = ", usuario.matches)
+              const index = usuario.matches.indexOf(usuarioIdObject);
+              console.log("index2 = ", index)
+              if (index > -1) {
+                usuario.matches.splice(index, 1);
+                usuario.save();
+                res.status(200).send({
+                  message: `Usuario removido do match com sucesso`
+                });
+              } else {
+                res.status(400).send({
+                  message: `erro ao fazer splice`
+                });
+              }
+            } else if (err) {
+              res.status(500).send({
+                message: `erro ao remover match`,
+              });
+            } else {
+              res.status(400).send({
+                message: `usuario não existe`,
+              });
+            }
+          });   
+        } else {
+          res.status(400).send({
+            message: `erro ao fazer splice`,
+          });
+        }
+      } else if (err) {
+        res.status(500).send({
+          message: `erro ao remover match`,
+        });
+      } else {
+        res.status(400).send({
+          message: `usuario não existe`,
+        });
+      }
+    });
+  };
+
+  // static excluirMatch = (req, res) => {
+  //   const usuarioId = req.params.id;
+  //   const usuarioRemovido = req.body.usuarioRemovido;
+  //   usuarios
+  //   .findByIdAndUpdate( usuarioId, { $pull: { matches: usuarioRemovido } })
+  //   .exec ((usuario, err) => {
+  //     if (err) {
+  //       res.status(500).send({ message: `${err.message} - falha ao remover match` });
+  //     } 
+  //     else if (!usuario) {
+  //       res.status(400).send({ message: `usuario não encontrado` });
+  //     } 
+  //     else {
+  //       usuarios
+  //       .findByIdAndUpdate( usuarioRemovido, { $pull: { matches: usuarioId } })
+  //       .exec((usuario, err ) => {
+  //         if (err) {
+  //           res.status(500).send({ message: `${err.message} - falha ao remover match` });
+  //         } else if (!usuario) {
+  //           res.status(400).send({ message: ` usuario não encontrado` });
+  //         } else {
+  //           res.status(200).send({ message: `Match desfeito com secesso` });
+  //         }
+  //       });
+  //     }
+  //   });
+  // };
+
+  // excluir dado da tabela matching
   static excluirMatchingPorUsuarios = (usuarioBase, usuarioChecado, res) => {
     matching.deleteOne( {usuarioBase: usuarioBase, usuarioChecado: usuarioChecado}, (err) => {
       if (err) {

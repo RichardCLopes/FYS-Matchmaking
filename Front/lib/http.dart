@@ -71,9 +71,9 @@ Future<List<dynamic>> getUser() async {
     final info = jsonDecode(response.body);
     userInfo = [info["nome"], info["localidade"], info["bio"]];
     print("body:" + userInfo.toString());
-    for (var game in info["jogos"]) userJogosID.add(game);
+    for (var game in info["jogos"]) userJogosID.add(game['_id']);
     for (var comm in info["comunidades"]) userCommsID.add(comm);
-    for (var plat in info["plataformas"]) userPlatsID.add(plat);
+    for (var plat in info["plataformas"]) userPlatsID.add(plat["_id"]);
   } else {
     print("erro code:" + response.statusCode.toString());
   }
@@ -92,7 +92,8 @@ Future<List<dynamic>> getOtherUser(String id) async {
       info["dataNascimento"],
       info["plataformas"],
       info["bio"],
-      info["jogos"]
+      info["jogos"],
+      info["localidade"]
     ];
     print("body:" + userInfo.toString());
   } else {
@@ -145,10 +146,23 @@ Future<List<dynamic>> sendMatch(String id, bool accepted) async {
       matchinfo["dataNascimento"],
       matchinfo["plataformas"],
       matchinfo["bio"],
-      matchinfo["jogos"]
+      matchinfo["jogos"],
     ];
   }
   return newUserInfo;
+}
+
+Future<int> removeMatch(String id) async {
+  final response = await http.delete(Uri.parse(ip + "matching/" + userID),
+      headers: {
+        HttpHeaders.authorizationHeader: 'bearer ' + token,
+        "Content-type": "application/json"
+      },
+      body: jsonEncode(<String, dynamic>{"usuarioRemovido": id}));
+  print("code: " + response.statusCode.toString());
+  print(response.body.toString());
+
+  return response.statusCode;
 }
 
 Future<List<dynamic>> getMatches() async {
@@ -327,6 +341,22 @@ Future<int> LeaveCommunity(String id) async {
           body: jsonEncode(<String, dynamic>{"comunidade": id}));
 
   if (response.statusCode != 200) userCommsID.add(id);
+  return response.statusCode;
+}
+
+Future<int> ReportUser(String id, String reason) async {
+  final response = await http.post(Uri.parse(ip + "denunciados"),
+      headers: {
+        HttpHeaders.authorizationHeader: 'bearer ' + token,
+        "Content-type": "application/json"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "denunciado": id,
+        "denunciador": userID,
+        "motivo": reason
+      }));
+  print("response: " + response.body.toString());
+
   return response.statusCode;
 }
 

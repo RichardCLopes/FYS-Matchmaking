@@ -1,7 +1,10 @@
 import 'dart:ui';
 import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/material.dart';
+import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
+import 'package:fys/pages/Messages.dart';
+import 'package:fys/pages/reportPage.dart';
 
 final double spaceHeight = 10;
 
@@ -13,6 +16,7 @@ class User {
   final String plataforms;
   final String bio;
   final String games;
+  final String local;
 
   const User({
     required this.id,
@@ -22,6 +26,7 @@ class User {
     required this.plataforms,
     required this.bio,
     required this.games,
+    required this.local,
   });
 }
 
@@ -45,16 +50,53 @@ Widget profile(User user) {
           ),
           Expanded(
             flex: 3,
-            child: Text(
-              user.name + ", " + user.age,
-              style: TextStyle(
-                fontFamily: 'alagard',
-                color: Colors.yellow,
-                fontSize: 26,
+            child: Container(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                children: [
+                  Text(
+                    user.name,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: 'alagard',
+                      color: Colors.yellow,
+                      fontSize: 28,
+                    ),
+                  ),
+                  Text(
+                    "idade: " + user.age,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: 'alagard',
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
         ]),
+      ),
+      Row(
+        children: [
+          Icon(
+            Icons.place,
+            color: Colors.yellow,
+            size: 30,
+          ),
+          Container(
+            child: Text(
+              user.local,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: 'alagard',
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+        ],
       ),
       Container(
         margin: EdgeInsets.symmetric(vertical: spaceHeight),
@@ -63,15 +105,17 @@ Widget profile(User user) {
             Icon(
               Icons.computer,
               color: Colors.yellow,
+              size: 32,
             ),
             Container(
+              alignment: Alignment.bottomLeft,
               width: 300,
               child: Text(
                 user.plataforms,
                 style: TextStyle(
                   fontFamily: 'alagard',
-                  color: Colors.yellow,
-                  fontSize: 22,
+                  color: Colors.white,
+                  fontSize: 24,
                 ),
               ),
             ),
@@ -90,7 +134,7 @@ Widget profile(User user) {
               style: TextStyle(
                 fontFamily: 'alagard',
                 color: Colors.yellow,
-                fontSize: 24,
+                fontSize: 26,
               ),
             ),
             Text(
@@ -99,7 +143,7 @@ Widget profile(User user) {
               style: TextStyle(
                 fontFamily: 'alagard',
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 22,
               ),
             ),
           ],
@@ -116,7 +160,7 @@ Widget profile(User user) {
               style: TextStyle(
                 fontFamily: 'alagard',
                 color: Colors.yellow,
-                fontSize: 24,
+                fontSize: 26,
               ),
             ),
             Text(
@@ -124,7 +168,7 @@ Widget profile(User user) {
               style: TextStyle(
                 fontFamily: 'alagard',
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 22,
               ),
             ),
           ],
@@ -145,21 +189,61 @@ class userProfilePage extends StatefulWidget {
 class _userProfilePageState extends State<userProfilePage> {
   _userProfilePageState(this.id);
   final String id;
+  late User user;
   Widget _mainpart = CircularProgressIndicator();
+  Widget button = Container();
 
   @override
   void initState() {
     loadUser();
   }
 
-  void loadUser() {
+  void loadUser() async {
+    final matches = await getMatches();
+    for (var match in matches) {
+      if (match[0] == id) {
+        button = IconButton(
+            onPressed: () {
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Remover usuário'),
+                  content: Text(
+                      'Tem certeza que deseja remover o usuario' + match[1]),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        removeMatch(id).then((value) {
+                          if (value == 200)
+                            SwitchScreen(context, MessagesPage());
+                        });
+                      },
+                      child: const Text('Sim'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'OK'),
+                      child: const Text('Não'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            icon: Icon(Icons.remove));
+        break;
+      } else if (match == matches.last)
+        button = IconButton(
+            onPressed: () {
+              sendMatch(id, true).then((value) {});
+            },
+            icon: Icon(Icons.add));
+    }
     getOtherUser(id).then((value) {
       final age = AgeCalculator.age(DateTime.parse(value[2])).years;
       String plataformas = "n/a";
       if (!value[3].isEmpty) {
         plataformas = '';
         for (int I = 0; I < value[3].length; I++) {
-          plataformas += value[3][I];
+          plataformas += value[3][I]["nome"];
           if (I != value[3].length - 1) plataformas += ", ";
         }
       }
@@ -170,17 +254,20 @@ class _userProfilePageState extends State<userProfilePage> {
       if (!value[5].isEmpty) {
         jogos = '';
         for (int I = 0; I < value[5].length; I++) {
-          jogos += value[5][I];
+          jogos += value[5][I]["nome"];
           if (I != value[5].length - 1) jogos += ", ";
         }
       }
-      final user = User(
+      String local = "n/a";
+      if (value[6] != null && value[6] != "") local = value[6];
+      user = User(
           id: value[0],
           name: value[1],
           age: age.toString(),
           plataforms: plataformas,
           bio: bio,
-          games: jogos);
+          games: jogos,
+          local: local);
       setState(() {
         _mainpart = profile(user);
       });
@@ -192,7 +279,12 @@ class _userProfilePageState extends State<userProfilePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0x44000000),
-        actions: [],
+        actions: [
+          button,
+          IconButton(
+              onPressed: () => PushScreen(context, reportPage(id, user.name)),
+              icon: Icon(Icons.report_problem))
+        ],
       ),
       body: Container(
         alignment: Alignment.center,

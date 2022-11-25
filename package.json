@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "mime": "^3.0.0"
+  },
+  "name": "fys-matchmaking",
+  "description": "![Visual Studio Code](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)\r ![Android](https://img.shields.io/badge/android-339933?style=for-the-badge&logo=android&logoColor=white)\r ![IOs](https://img.shields.io/badge/ios-000000?style=for-the-badge&logo=ios&logoColor=white)\r ![Node.Js](https://img.shields.io/badge/Node.Js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)\r ![Flutter](https://img.shields.io/badge/Flutter-0078D4?style=for-the-badge&logo=flutter&logoColor=white)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RichardCLopes/FYS-Matchmaking.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RichardCLopes/FYS-Matchmaking/issues"
+  },
+  "homepage": "https://github.com/RichardCLopes/FYS-Matchmaking#readme"
+}

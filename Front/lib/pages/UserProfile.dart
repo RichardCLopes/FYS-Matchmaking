@@ -22,7 +22,7 @@ class User {
     required this.id,
     required this.name,
     required this.age,
-    this.picture = "assets/images/placeholder.png",
+    required this.picture,
     required this.plataforms,
     required this.bio,
     required this.games,
@@ -265,6 +265,7 @@ class _userProfilePageState extends State<userProfilePage> {
           name: value[1],
           age: age.toString(),
           plataforms: plataformas,
+          picture: "assets/images/placeholder.png",
           bio: bio,
           games: jogos,
           local: local);

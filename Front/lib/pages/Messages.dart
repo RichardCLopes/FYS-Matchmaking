@@ -38,7 +38,8 @@ List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
         decoration:
             BoxDecoration(border: Border.all(color: Colors.white, width: 1)),
         child: ElevatedButton(
-          onPressed: () => PushScreen(context, chatPage(MemberList[I].id)),
+          onPressed: () => PushScreen(
+              context, chatPage(MemberList[I].id, MemberList[I].name)),
           style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
           child: Stack(
             children: [

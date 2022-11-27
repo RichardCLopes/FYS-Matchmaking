@@ -10,16 +10,19 @@ import 'package:fys/pages/UserProfile.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class chatPage extends StatefulWidget {
-  chatPage(this.id);
+  chatPage(this.id, this.nome);
   final String id;
+  final String nome;
 
   @override
-  State<chatPage> createState() => _chatPageState(this.id);
+  State<chatPage> createState() => _chatPageState(this.id, this.nome);
 }
 
 class _chatPageState extends State<chatPage> {
-  _chatPageState(this.id);
+  _chatPageState(this.id, this.nome);
   final String id;
+  final String nome;
+
   late IO.Socket socket;
   List<MessageModel> messages = [];
   TextEditingController _controller = TextEditingController();
@@ -79,7 +82,7 @@ class _chatPageState extends State<chatPage> {
           )
         ],
         centerTitle: true,
-        title: Text(id), //pegar o nome atravez do server pelo ID
+        title: Text(nome), //pegar o nome atravez do server pelo ID
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,

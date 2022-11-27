@@ -71,6 +71,7 @@ Future<List<dynamic>> getUser() async {
     final info = jsonDecode(response.body);
     userInfo = [info["nome"], info["localidade"], info["bio"], info["foto"]];
     if (info["foto"] != null) print("foto: " + info["foto"]);
+    if (info["foto"] == null) print("foto: ");
     print("body:" + userInfo.toString());
     for (var game in info["jogos"]) userJogosID.add(game['_id']);
     for (var comm in info["comunidades"]) userCommsID.add(comm);

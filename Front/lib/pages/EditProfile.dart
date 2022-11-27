@@ -1,6 +1,6 @@
 // ignore: file_names, unnecessary_import
 import 'dart:ui';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
@@ -9,6 +9,9 @@ import 'package:fys/pages/QRCode.dart';
 import 'package:fys/pages/SignUpPage.dart';
 import 'package:fys/pages/gameList.dart';
 import 'package:fys/pages/plataformList.dart';
+
+import 'dart:typed_data';
+import 'dart:async';
 
 double spaceHeight = 10;
 
@@ -118,11 +121,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
         nome.text = value[0];
         if (value[1] != null) local.text = value[1];
         if (value[2] != null) bio.text = value[2];
-        if (value[3] != null && value[3].isNotEmpty)
-          userFoto = Image.network(
-            "https://iopwiki.com/images/7/7e/M16A1_S.png",
-            fit: BoxFit.scaleDown,
-          );
+        if (value[3] != null && value[3].isNotEmpty) {
+          //Uint8List bytes = BASE64.decode(value[3]);
+
+          Uint8List bytesImage;
+          String imgString = value[3];
+          bytesImage = Base64Decoder().convert(imgString.substring(22));
+          userFoto = Image.memory(bytesImage);
+        }
         editButton = edittingButton();
       });
     });

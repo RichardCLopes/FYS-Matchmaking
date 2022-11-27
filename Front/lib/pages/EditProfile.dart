@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
 import 'package:fys/main.dart';
+import 'package:fys/pages/QRCode.dart';
 import 'package:fys/pages/SignUpPage.dart';
 import 'package:fys/pages/gameList.dart';
 import 'package:fys/pages/plataformList.dart';
@@ -29,7 +30,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
     onPressed: () {},
   );
   Widget topButton = Container();
-
+  Widget userFoto = Image.asset(
+    "assets/images/placeholder.png",
+    fit: BoxFit.scaleDown,
+  );
   var previous;
   bool isEditing = false;
 
@@ -114,6 +118,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
         nome.text = value[0];
         if (value[1] != null) local.text = value[1];
         if (value[2] != null) bio.text = value[2];
+        if (value[3] != null && value[3].isNotEmpty)
+          userFoto = Image.network(
+            "https://iopwiki.com/images/7/7e/M16A1_S.png",
+            fit: BoxFit.scaleDown,
+          );
         editButton = edittingButton();
       });
     });
@@ -129,7 +138,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Color(0x44000000),
+        title: IconButton(
+          icon: Icon(Icons.qr_code),
+          onPressed: () => PushScreen(context, QrCodePage()),
+        ),
         actions: <Widget>[topButton],
       ),
       body: Container(
@@ -171,10 +185,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         width: 100,
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Image.asset(
-                            "assets/images/placeholder.png",
-                            fit: BoxFit.scaleDown,
-                          ),
+                          child: userFoto,
                           style: ElevatedButton.styleFrom(
                               primary: Color(0x00000000)),
                         ),

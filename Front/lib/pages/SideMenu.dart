@@ -7,6 +7,7 @@ import 'package:fys/pages/EditProfile.dart';
 import 'package:fys/pages/homepage.dart';
 import 'package:fys/pages/Connections.dart';
 import 'package:fys/pages/Settings.dart';
+import 'package:fys/pages/QrReader.dart';
 
 class sideMenu extends StatelessWidget {
   const sideMenu({Key? key}) : super(key: key);
@@ -59,6 +60,18 @@ class sideMenu extends StatelessWidget {
                     ),
                   ),
                   onTap: () => PushScreen(context, SettingsMainPage()),
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings, color: Colors.white),
+                  title: Text(
+                    "Adicionar por QR Code",
+                    style: TextStyle(
+                      fontFamily: 'alagard',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  onTap: () => PushScreen(context, QrReader()),
                 ),
                 ListTile(
                   leading: Icon(Icons.logout, color: Colors.white),

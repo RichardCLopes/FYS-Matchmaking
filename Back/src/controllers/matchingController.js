@@ -56,6 +56,16 @@ class MatchingController {
     });
   };
 
+  static qrCodeMatching = (req, res) => {
+    let usuarioBase = req.body.usuarioBase;
+    let usuarioChecado = req.body.usuarioChecado;
+    UsuarioController.insereMatches(usuarioBase, usuarioChecado, res);
+    UsuarioController.insereMatches(usuarioChecado, usuarioBase, res);
+    res.status(200).send({
+      message: `match realizado`
+    });
+  };
+
   // excluir dado da tabela matching
   static excluirMatchingPorId = (id, res) => {
     console.log("excluirMatchingPorId = ", id)
@@ -278,6 +288,8 @@ class MatchingController {
     // caso nao ache nenhum usuario retorna mensagem de que nao ha mais usuarios no perfil com codigo 202
     // res.status(202).send({ message: "Nao ha mais usuarios no perfil" });
   };
+
+  
 
 }
 

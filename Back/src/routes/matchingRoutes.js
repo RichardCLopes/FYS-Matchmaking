@@ -9,6 +9,7 @@ router
     .get("/matching/:id", passport.authenticate('bearer', {session: false }), MatchingController.listarMatchingPorId)
     .post("/matching", passport.authenticate('bearer', {session: false }), MatchingController.cadastrarMatching)
     .post("/matching-proximo", passport.authenticate('bearer', {session: false }), MatchingController.proximoMatching)
+    .post("/matching-qrcode", passport.authenticate('bearer', {session: false }), MatchingController.qrCodeMatching)
     .delete("/matching/:id", passport.authenticate('bearer', {session: false }), MatchingController.excluirMatch);
 
 export default router;

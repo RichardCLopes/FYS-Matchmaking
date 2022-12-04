@@ -1,5 +1,7 @@
 import 'dart:ffi';
 import 'dart:ui';
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
@@ -21,8 +23,23 @@ class Member {
 List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
   var widgetList = <Widget>[];
   int j = 0;
+  Widget userfoto;
   var rowList = <Widget>[];
   for (int I = 0; I < MemberList.length; I++) {
+    if (MemberList[I].picture.isNotEmpty) {
+      Uint8List bytesImage;
+      String imgString = MemberList[I].picture;
+      bytesImage = Base64Decoder().convert(imgString.substring(22));
+      userfoto = Image.memory(
+        bytesImage,
+        fit: BoxFit.scaleDown,
+      );
+    } else {
+      userfoto = Image.asset(
+        "assets/images/placeholder.png",
+        fit: BoxFit.scaleDown,
+      );
+    }
     rowList.add(
       Container(
         height: 150,
@@ -37,10 +54,7 @@ List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
           style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
           child: Stack(
             children: [
-              Image.asset(
-                MemberList[I].picture,
-                fit: BoxFit.scaleDown,
-              ),
+              userfoto,
               Container(
                 alignment: Alignment.bottomCenter,
                 child: Text(
@@ -94,7 +108,9 @@ class _MemberListPageState extends State<MemberListPage> {
 
     getCommMembers(id).then((value) {
       for (var memb in value) {
-        memberList.add(Member(id: memb[0], name: memb[1]));
+        String foto = "";
+        if (memb[7] != null && memb[7].isNotEmpty) foto = memb[7];
+        memberList.add(Member(id: memb[0], name: memb[1], picture: foto));
       }
       setState(() {
         _mainpart = ListView(children: MemberWidgetList(context, memberList));

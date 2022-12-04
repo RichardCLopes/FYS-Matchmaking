@@ -45,7 +45,11 @@ class _gameSelectPageState extends State<gameSelectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("selecione jogos"),
+          backgroundColor: Color(0x44000000),
+          title: Text(
+            "selecione jogos",
+            style: TextStyle(fontSize: 20, color: Colors.yellow),
+          ),
           actions: <Widget>[
             IconButton(
                 onPressed: () {
@@ -81,7 +85,7 @@ class _gameSelectPageState extends State<gameSelectPage> {
       widgetlist.add(Container(
         child: Row(children: [
           Checkbox(
-              checkColor: Colors.white,
+              checkColor: Colors.yellow,
               value: gamelist[I].isChecked,
               onChanged: (bool? value) {
                 setState(() {
@@ -92,7 +96,7 @@ class _gameSelectPageState extends State<gameSelectPage> {
           Text(gamelist[I].name,
               style: TextStyle(
                 fontSize: 25,
-                color: Color.fromARGB(255, 189, 189, 189),
+                color: Colors.white,
               ))
         ]),
       ));

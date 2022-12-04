@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
@@ -6,6 +7,8 @@ import 'package:fys/http.dart';
 import 'package:fys/pages/Messages.dart';
 import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/Comunities.dart';
+
+import 'dart:typed_data';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -25,7 +28,24 @@ class Community {
 List<Widget> communityWidgetList(
     BuildContext context, List<Community> communityList) {
   var widgetList = <Widget>[];
+  Widget commFoto;
+
   for (int I = 0; I < communityList.length; I++) {
+    if (communityList[I].picture.isNotEmpty) {
+      Uint8List bytesImage;
+      String imgString = communityList[I].picture;
+      bytesImage = Base64Decoder().convert(imgString.substring(22));
+
+      commFoto = Image.memory(
+        bytesImage,
+        fit: BoxFit.scaleDown,
+      );
+    } else
+      commFoto = Image.asset(
+        "assets/images/placeholder.png",
+        fit: BoxFit.scaleDown,
+      );
+
     widgetList.add(Container(
       height: 140,
       margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -35,10 +55,7 @@ List<Widget> communityWidgetList(
         children: [
           Expanded(
             flex: 3,
-            child: Image.asset(
-              communityList[I].picture,
-              fit: BoxFit.scaleDown,
-            ),
+            child: commFoto,
           ),
           Expanded(
             flex: 5,
@@ -85,7 +102,7 @@ class CommunitySearchPage extends StatefulWidget {
 
 class _CommunitySearchPageState extends State<CommunitySearchPage> {
   Widget _mainPart = CircularProgressIndicator();
-
+  TextEditingController search = TextEditingController();
   @override
   void initState() {
     loadCommunities();
@@ -100,136 +117,147 @@ class _CommunitySearchPageState extends State<CommunitySearchPage> {
             icon: Icon(Icons.arrow_back)),
         actions: <Widget>[IconButton(onPressed: () {}, icon: Icon(Icons.add))],
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-            height: 550,
-            child: Column(children: [
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Procurar comunidades:",
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              height: 550,
+              child: Column(children: [
+                Expanded(
+                    flex: 1,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Procurar comunidades:",
+                        style: TextStyle(
+                          fontFamily: 'alagard',
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: TextFormField(
+                      controller: search,
+                      onEditingComplete: () {
+                        loadCommunities();
+                      },
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 34, 34, 34),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 51, 225, 255),
+                              width: 1),
+                          borderRadius: BorderRadius.circular(2.0),
+                        ),
+                      ),
                       style: TextStyle(
-                        fontFamily: 'alagard',
-                        color: Colors.white,
                         fontSize: 20,
+                        color: Color.fromARGB(255, 189, 189, 189),
                       ),
-                    ),
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: TextFormField(
-                    keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Color.fromARGB(255, 34, 34, 34),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
-                    ),
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 189, 189, 189),
-                    ),
-                  )),
-              Expanded(flex: 7, child: _mainPart)
-            ]),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: buttonWidth,
-                  height: buttonHeigth,
-                  // ignore: unnecessary_new
-                  child: SizedBox.expand(
-                    child: ElevatedButton(
-                      child: Text(
-                        "Mensagens",
-                        style: TextStyle(
-                            fontFamily: 'alagard',
-                            color: Color.fromARGB(255, 224, 224, 224),
-                            fontSize: fontsize),
-                        textAlign: TextAlign.left,
-                      ),
-                      onPressed: () => SwitchScreen(context, MessagesPage()),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 40, 6, 49),
-                        side: BorderSide(
-                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
-                        // ignore: unnecessary_new
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(5.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: buttonWidth,
-                  height: buttonHeigth,
-
-                  // ignore: unnecessary_new
-                  child: SizedBox.expand(
-                    child: ElevatedButton(
-                      child: Text(
-                        "Shoot n Pick",
-                        style: TextStyle(
-                            fontFamily: 'alagard',
-                            color: Color.fromARGB(255, 224, 224, 224),
-                            fontSize: fontsize),
-                        textAlign: TextAlign.left,
-                      ),
-                      onPressed: () => SwitchScreen(context, ShootnPickPage()),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 40, 6, 49),
-                        side: BorderSide(
-                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
-                        // ignore: unnecessary_new
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(5.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: buttonWidth,
-                  height: buttonHeigth,
-                  // ignore: unnecessary_new
-                  child: SizedBox.expand(
-                    child: ElevatedButton(
-                      child: Text(
-                        "Comunidades",
-                        style: TextStyle(
-                            fontFamily: 'alagard',
-                            color: Color.fromARGB(255, 224, 224, 224),
-                            fontSize: fontsize),
-                        textAlign: TextAlign.left,
-                      ),
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 40, 6, 49),
-                        side: BorderSide(
-                            color: Color.fromARGB(255, 51, 225, 255), width: 1),
-                        // ignore: unnecessary_new
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(5.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                    )),
+                Expanded(flex: 7, child: _mainPart)
+              ]),
             ),
-          )
-        ],
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: buttonWidth,
+                    height: buttonHeigth,
+                    // ignore: unnecessary_new
+                    child: SizedBox.expand(
+                      child: ElevatedButton(
+                        child: Text(
+                          "Mensagens",
+                          style: TextStyle(
+                              fontFamily: 'alagard',
+                              color: Color.fromARGB(255, 224, 224, 224),
+                              fontSize: fontsize),
+                          textAlign: TextAlign.left,
+                        ),
+                        onPressed: () => SwitchScreen(context, MessagesPage()),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 40, 6, 49),
+                          side: BorderSide(
+                              color: Color.fromARGB(255, 51, 225, 255),
+                              width: 1),
+                          // ignore: unnecessary_new
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(5.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: buttonWidth,
+                    height: buttonHeigth,
+
+                    // ignore: unnecessary_new
+                    child: SizedBox.expand(
+                      child: ElevatedButton(
+                        child: Text(
+                          "Shoot n Pick",
+                          style: TextStyle(
+                              fontFamily: 'alagard',
+                              color: Color.fromARGB(255, 224, 224, 224),
+                              fontSize: fontsize),
+                          textAlign: TextAlign.left,
+                        ),
+                        onPressed: () =>
+                            SwitchScreen(context, ShootnPickPage()),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 40, 6, 49),
+                          side: BorderSide(
+                              color: Color.fromARGB(255, 51, 225, 255),
+                              width: 1),
+                          // ignore: unnecessary_new
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(5.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: buttonWidth,
+                    height: buttonHeigth,
+                    // ignore: unnecessary_new
+                    child: SizedBox.expand(
+                      child: ElevatedButton(
+                        child: Text(
+                          "Comunidades",
+                          style: TextStyle(
+                              fontFamily: 'alagard',
+                              color: Color.fromARGB(255, 224, 224, 224),
+                              fontSize: fontsize),
+                          textAlign: TextAlign.left,
+                        ),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 40, 6, 49),
+                          side: BorderSide(
+                              color: Color.fromARGB(255, 51, 225, 255),
+                              width: 1),
+                          // ignore: unnecessary_new
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(5.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -237,16 +265,23 @@ class _CommunitySearchPageState extends State<CommunitySearchPage> {
   void loadCommunities() {
     List<Community> communityList = [];
     print("carregando comunidades");
-    getAllCommunities().then((value) => {
-          setState(() {
-            for (var comm in value) {
-              communityList.add(Community(id: comm["_id"], name: comm["nome"]));
-            }
-            _mainPart = ListView(
-              children: communityWidgetList(context, communityList),
-            );
-          })
-        });
-    print("comunidades carregadas");
+    getAllCommunities().then((value) {
+      setState(() {
+        for (var comm in value) {
+          if (search.text.isEmpty || comm["nome"].contains(search.text)) {
+            String foto = "";
+            if (comm["foto"] != null && comm["foto"].isNotEmpty)
+              foto = comm["foto"];
+            communityList.add(
+                Community(id: comm["_id"], name: comm["nome"], picture: foto));
+          }
+        }
+
+        _mainPart = ListView(
+          children: communityWidgetList(context, communityList),
+        );
+      });
+      print("comunidades carregadas");
+    });
   }
 }

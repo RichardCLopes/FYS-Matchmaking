@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
@@ -10,6 +10,8 @@ import 'package:fys/pages/SideMenu.dart';
 import 'package:fys/pages/EditProfile.dart';
 import 'package:fys/pages/UserProfile.dart';
 import 'package:age_calculator/age_calculator.dart';
+
+import 'dart:typed_data';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -36,6 +38,18 @@ class User {
 }
 
 Widget Card(BuildContext context, User user) {
+  Widget userfoto = Image.asset(
+    "assets/images/placeholder.png",
+    fit: BoxFit.scaleDown,
+  );
+
+  if (user.picture.isNotEmpty) {
+    Uint8List bytesImage;
+    String imgString = user.picture;
+    bytesImage = Base64Decoder().convert(imgString.substring(22));
+    userfoto = Image.memory(bytesImage);
+  }
+
   return Material(
     type: MaterialType.transparency,
     child: Container(
@@ -71,12 +85,12 @@ Widget Card(BuildContext context, User user) {
                           EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1)),
-                      child: Image.asset(user.picture, fit: BoxFit.scaleDown)),
+                      child: userfoto),
                 ),
                 Expanded(
                   flex: 2,
                   child: Text(
-                    user.name + ", " + user.age,
+                    user.name + ",\n" + user.age,
                     style: TextStyle(
                       fontFamily: 'alagard',
                       color: Colors.yellow,
@@ -384,6 +398,8 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
           if (I != value[5].length - 1) jogos += ", ";
         }
       }
+      String foto = "";
+      if (value[6] != null && value[6].isNotEmpty) foto = value[6];
       setState(() {
         currentUser = User(
             id: value[0],
@@ -391,7 +407,8 @@ class _ShootnPickPageState extends State<ShootnPickPage> {
             age: age.toString(),
             plataforms: plataformas,
             bio: bio,
-            games: jogos);
+            games: jogos,
+            picture: foto);
         _mainPart = Container(
           alignment: Alignment.center,
           child: Stack(

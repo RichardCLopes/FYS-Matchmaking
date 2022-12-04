@@ -35,8 +35,24 @@ class _QrReaderState extends State<QrReader> {
     if (QRScanRes != '-1') {
       readID = jsonDecode(QRScanRes)['_id'];
       if (readID != null && readID.isNotEmpty) {
-        sendMatch(readID, true)
-            .then((value) => SwitchScreen(context, MessagesPage()));
+        matchQR(jsonDecode(readID)['_id']).then((value) {
+          if (value == 200)
+            SwitchScreen(context, MessagesPage());
+          else
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Usuário não encontrado'),
+                content: const Text('QR code inválido, ler denovo'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+        });
       }
     }
   }
@@ -44,38 +60,48 @@ class _QrReaderState extends State<QrReader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("ler QR Code")),
-      body: Column(
-        children: [
-          Text(
-            "Dar match em usuário através de QR Code:",
-            style: TextStyle(
-              fontFamily: 'alagard',
-              color: Colors.yellow,
-              fontSize: 26,
-            ),
-          ),
-          ElevatedButton(
-            onPressed: (() => scanQRCodeNormal()),
-            child: Text(
-              "ler",
+      appBar: AppBar(
+        backgroundColor: Color(0x44000000),
+      ),
+      body: Container(
+        padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+        child: Column(
+          children: [
+            Text(
+              "Dar match em outro usuário através de QR Code:",
               style: TextStyle(
                 fontFamily: 'alagard',
-                color: Colors.white,
-                fontSize: 22,
+                color: Colors.yellow,
+                fontSize: 26,
               ),
             ),
-            style: ElevatedButton.styleFrom(
-              primary: Color.fromARGB(255, 40, 6, 49),
-              side: BorderSide(
-                  color: Color.fromARGB(255, 51, 225, 255), width: 1),
-              // ignore: unnecessary_new
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(5.0),
+            Container(
+              margin: EdgeInsets.fromLTRB(15, 120, 15, 30),
+              height: 70,
+              width: 300,
+              child: ElevatedButton(
+                onPressed: (() => scanQRCodeNormal()),
+                child: Text(
+                  "ler",
+                  style: TextStyle(
+                    fontFamily: 'alagard',
+                    color: Colors.white,
+                    fontSize: 22,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 40, 6, 49),
+                  side: BorderSide(
+                      color: Color.fromARGB(255, 51, 225, 255), width: 1),
+                  // ignore: unnecessary_new
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(5.0),
+                  ),
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

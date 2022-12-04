@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
@@ -7,6 +7,8 @@ import 'package:fys/pages/CommunityChat.dart';
 import 'package:fys/pages/CommunityTopics.dart';
 import 'package:fys/pages/CommuntyMembers.dart';
 import 'package:fys/pages/Comunities.dart';
+
+import 'dart:typed_data';
 
 double fontsize = 17;
 
@@ -35,7 +37,22 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
   }
 
   void loadCommunity() {
+    Widget commFoto;
     print("comunidade carregada");
+    if (foto.isNotEmpty) {
+      Uint8List bytesImage;
+      String imgString = foto;
+      bytesImage = Base64Decoder().convert(imgString.substring(22));
+      commFoto = Image.memory(
+        bytesImage,
+        fit: BoxFit.fill,
+      );
+    } else {
+      commFoto = Image.asset(
+        "assets/images/placeholder.png",
+        fit: BoxFit.scaleDown,
+      );
+    }
     setState(() {
       _mainPart = Container(
         child: Stack(
@@ -43,10 +60,7 @@ class _CommunityMainPageState extends State<CommunityMainPage> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               alignment: Alignment.center,
-              child: Image.asset(
-                foto,
-                fit: BoxFit.scaleDown,
-              ),
+              child: commFoto,
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),

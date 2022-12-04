@@ -1,9 +1,12 @@
 import 'dart:ui';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
 import 'package:fys/pages/Messages.dart';
+import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/reportPage.dart';
 
 final double spaceHeight = 10;
@@ -31,6 +34,21 @@ class User {
 }
 
 Widget profile(User user) {
+  Widget userfoto;
+  if (user.picture.isNotEmpty) {
+    Uint8List bytesImage;
+    String imgString = user.picture;
+    bytesImage = Base64Decoder().convert(imgString.substring(22));
+    userfoto = Image.memory(
+      bytesImage,
+      fit: BoxFit.scaleDown,
+    );
+  } else {
+    userfoto = Image.asset(
+      "assets/images/placeholder.png",
+      fit: BoxFit.scaleDown,
+    );
+  }
   return Container(
     width: 360,
     alignment: Alignment.center,
@@ -46,7 +64,7 @@ Widget profile(User user) {
                 margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1)),
-                child: Image.asset(user.picture, fit: BoxFit.scaleDown)),
+                child: userfoto),
           ),
           Expanded(
             flex: 3,
@@ -233,7 +251,9 @@ class _userProfilePageState extends State<userProfilePage> {
       } else if (match == matches.last)
         button = IconButton(
             onPressed: () {
-              sendMatch(id, true).then((value) {});
+              sendMatch(id, true).then((value) {
+                SwitchScreen(context, ShootnPickPage());
+              });
             },
             icon: Icon(Icons.add));
     }
@@ -260,12 +280,14 @@ class _userProfilePageState extends State<userProfilePage> {
       }
       String local = "n/a";
       if (value[6] != null && value[6] != "") local = value[6];
+      String foto = "";
+      if (value[7] != null && value[7].isNotEmpty) foto = value[7];
       user = User(
           id: value[0],
           name: value[1],
           age: age.toString(),
           plataforms: plataformas,
-          picture: "assets/images/placeholder.png",
+          picture: foto,
           bio: bio,
           games: jogos,
           local: local);

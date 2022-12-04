@@ -62,7 +62,7 @@ class sideMenu extends StatelessWidget {
                   onTap: () => PushScreen(context, SettingsMainPage()),
                 ),
                 ListTile(
-                  leading: Icon(Icons.settings, color: Colors.white),
+                  leading: Icon(Icons.qr_code, color: Colors.white),
                   title: Text(
                     "Adicionar por QR Code",
                     style: TextStyle(

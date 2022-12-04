@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fys/builders.dart';
 import 'package:fys/http.dart';
@@ -10,6 +10,8 @@ import 'package:fys/pages/CommunitySearch.dart';
 import 'package:fys/pages/CommunityMain.dart';
 import 'package:fys/pages/SideMenu.dart';
 import 'package:fys/pages/EditProfile.dart';
+
+import 'dart:typed_data';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -28,10 +30,27 @@ class Community {
 
 List<Widget> communityWidgetList(
     BuildContext context, List<Community> communityList) {
+  Widget commFoto = Image.asset(
+    "assets/images/placeholder.png",
+    fit: BoxFit.scaleDown,
+  );
   var widgetList = <Widget>[];
   int j = 0;
   var rowList = <Widget>[];
   for (int I = 0; I < communityList.length; I++) {
+    if (communityList[I].picture.isNotEmpty) {
+      Uint8List bytesImage;
+      String imgString = communityList[I].picture;
+      bytesImage = Base64Decoder().convert(imgString.substring(22));
+      commFoto = Image.memory(
+        bytesImage,
+        fit: BoxFit.scaleDown,
+      );
+    } else
+      commFoto = Image.asset(
+        "assets/images/placeholder.png",
+        fit: BoxFit.scaleDown,
+      );
     rowList.add(
       Container(
         height: 160,
@@ -47,10 +66,7 @@ List<Widget> communityWidgetList(
           style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
           child: Stack(
             children: [
-              Image.asset(
-                communityList[I].picture,
-                fit: BoxFit.scaleDown,
-              ),
+              commFoto,
               Container(
                 alignment: Alignment.bottomCenter,
                 child: Text(
@@ -100,8 +116,12 @@ class _ComunitiesPageState extends State<ComunitiesPage> {
     List<Community> communityList = [];
 
     for (var comm in userCommsID) {
-      await getCommunity(comm).then((value) =>
-          communityList.add(Community(id: value[0], name: value[1])));
+      await getCommunity(comm).then((value) {
+        String foto = "";
+        if (value[2] != null && value[2].isNotEmpty) foto = value[2];
+        communityList
+            .add(Community(id: value[0], name: value[1], picture: foto));
+      });
     }
     print("comunidades carregadas");
     setState(() {
@@ -120,8 +140,6 @@ class _ComunitiesPageState extends State<ComunitiesPage> {
       }
     });
   }
-
-  getcommns() async {}
 
   @override
   Widget build(BuildContext context) {

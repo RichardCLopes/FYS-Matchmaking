@@ -127,7 +127,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           Uint8List bytesImage;
           String imgString = value[3];
           bytesImage = Base64Decoder().convert(imgString.substring(22));
-          userFoto = Image.memory(bytesImage);
+          userFoto = Image.memory(bytesImage, fit: BoxFit.scaleDown);
         }
         editButton = edittingButton();
       });

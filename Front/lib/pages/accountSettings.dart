@@ -3,155 +3,83 @@ import 'package:fys/builders.dart';
 import 'package:flutter/material.dart';
 import 'package:fys/pages/Settings.dart';
 
-class SettingsMainPage extends StatelessWidget {
-  const SettingsMainPage({Key? key}) : super(key: key);
+class accountSettingsPage extends StatefulWidget {
+  const accountSettingsPage({super.key});
+
+  @override
+  State<accountSettingsPage> createState() => _accountSettingsPageState();
+}
+
+class _accountSettingsPageState extends State<accountSettingsPage> {
+  TextEditingController email = TextEditingController();
+  TextEditingController senha = TextEditingController();
+  bool isEditingEmail = false;
+
+  @override
+  void initState() {
+    loadUser();
+  }
+
+  void loadUser() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                border: Border(
-                    top: BorderSide(width: 1, color: Colors.white),
-                    bottom: BorderSide(width: 1, color: Colors.white))),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-              child: ListTile(
-                leading: Icon(
-                  Icons.account_circle,
-                  size: 50,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "E-MAIL",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'alagard',
-                    color: Colors.white,
-                    fontSize: 46,
-                  ),
-                ),
-                onTap: () {},
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                border: Border(
-                    top: BorderSide(width: 1, color: Colors.white),
-                    bottom: BorderSide(width: 1, color: Colors.white))),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-              child: ListTile(
-                leading: Icon(
-                  Icons.notifications_active,
-                  size: 50,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "SENHAS",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'alagard',
-                    color: Colors.white,
-                    fontSize: 46,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                border: Border(
-                    top: BorderSide(width: 1, color: Colors.white),
-                    bottom: BorderSide(width: 1, color: Colors.white))),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-              child: ListTile(
-                leading: Icon(
-                  Icons.workspace_premium,
-                  size: 50,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "DATA",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'alagard',
-                    color: Colors.white,
-                    fontSize: 46,
-                  ),
-                ),
-                onTap: () {},
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                border: Border(
-                    top: BorderSide(width: 1, color: Colors.white),
-                    bottom: BorderSide(width: 1, color: Colors.white))),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-              child: ListTile(
-                leading: Icon(
-                  Icons.lock,
-                  size: 50,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "ID DE USUARIO",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'alagard',
-                    color: Colors.white,
-                    fontSize: 46,
-                  ),
-                ),
-                onTap: () {},
-              ),
-            ),
-          ),
-          Container(
-            height: 55,
-            padding: EdgeInsets.only(top: 0, left: 85, right: 85, bottom: 0),
-            // ignore: unnecessary_new
-            child: SizedBox.expand(
-              child: ElevatedButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: <Widget>[
-                    SizedBox(
-                      width: 15,
-                    ),
+      appBar: AppBar(
+        backgroundColor: Color(0x44000000),
+      ),
+      body: Container(
+        child: ListView(
+          children: [
+            Container(
+                padding: EdgeInsets.only(top: 10, left: 10, right: 30),
+                child: Column(
+                  children: [
                     Text(
-                      "V O L T A R",
+                      "E-Mail:",
                       style: TextStyle(
-                          fontFamily: 'alagard',
-                          color: Color.fromARGB(255, 40, 6, 49),
-                          fontSize: 20),
-                      textAlign: TextAlign.left,
+                          color: Color.fromARGB(255, 189, 189, 189),
+                          fontSize: 24,
+                          fontFamily: 'alagard'),
                     ),
+                    TextFormField(
+                      enabled: isEditingEmail,
+                      controller: email,
+                      keyboardType: TextInputType.text,
+                      textAlign: TextAlign.left,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 34, 34, 34),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 51, 225, 255),
+                              width: 1),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        hintText: 'e-mail',
+                        hintStyle: TextStyle(
+                          fontSize: 21,
+                          color: Color.fromARGB(255, 189, 189, 189),
+                        ),
+                        contentPadding: EdgeInsets.all(12.0),
+                      ),
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Color.fromARGB(255, 189, 189, 189),
+                      ),
+                    ),
+                    Checkbox(
+                      value: isEditingEmail,
+                      onChanged: (value) {
+                        setState(() {
+                          isEditingEmail = value!;
+                        });
+                      },
+                    )
                   ],
-                ),
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 51, 225, 255),
-                  side: BorderSide(
-                      color: Color.fromARGB(255, 40, 6, 49), width: 2),
-                  // ignore: unnecessary_new
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(5.0),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+                )),
+          ],
+        ),
       ),
     );
   }

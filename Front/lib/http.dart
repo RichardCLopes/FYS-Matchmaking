@@ -95,7 +95,8 @@ Future<List<dynamic>> getOtherUser(String id) async {
       info["plataformas"],
       info["bio"],
       info["jogos"],
-      info["localidade"]
+      info["localidade"],
+      info["foto"],
     ];
     print("body:" + userInfo.toString());
   } else {
@@ -121,7 +122,8 @@ Future<List<dynamic>> getMatchCandidate() async {
       matchinfo["dataNascimento"],
       matchinfo["plataformas"],
       matchinfo["bio"],
-      matchinfo["jogos"]
+      matchinfo["jogos"],
+      matchinfo["foto"],
     ];
   }
   return match;
@@ -149,9 +151,24 @@ Future<List<dynamic>> sendMatch(String id, bool accepted) async {
       matchinfo["plataformas"],
       matchinfo["bio"],
       matchinfo["jogos"],
+      matchinfo["foto"],
     ];
   }
   return newUserInfo;
+}
+
+Future<int> matchQR(String id) async {
+  final response = await http.post(Uri.parse(ip + "matching-qrcode"),
+      headers: {
+        HttpHeaders.authorizationHeader: 'bearer ' + token,
+        "Content-type": "application/json"
+      },
+      body: jsonEncode(<String, dynamic>{
+        "usuarioBase": userID,
+        "usuarioChecado": id,
+      }));
+
+  return response.statusCode;
 }
 
 Future<int> removeMatch(String id) async {

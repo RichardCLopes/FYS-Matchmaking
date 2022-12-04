@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:fys/builders.dart';
@@ -9,6 +10,8 @@ import 'package:fys/pages/ShootNPick.dart';
 import 'package:fys/pages/DirectChat.dart';
 import 'package:fys/pages/SideMenu.dart';
 import 'package:fys/pages/EditProfile.dart';
+
+import 'dart:typed_data';
 
 double buttonWidth = 135;
 double buttonHeigth = 50;
@@ -29,7 +32,26 @@ List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
   var widgetList = <Widget>[];
   int j = 0;
   var rowList = <Widget>[];
+  Widget userfoto = Image.asset(
+    "assets/images/placeholder.png",
+    fit: BoxFit.scaleDown,
+  );
   for (int I = 0; I < MemberList.length; I++) {
+    if (MemberList[I].picture.isNotEmpty) {
+      Uint8List bytesImage;
+      String imgString = MemberList[I].picture;
+      bytesImage = Base64Decoder().convert(imgString.substring(22));
+      userfoto = Image.memory(
+        bytesImage,
+        fit: BoxFit.scaleDown,
+      );
+    } else {
+      userfoto = Image.asset(
+        "assets/images/placeholder.png",
+        fit: BoxFit.scaleDown,
+      );
+    }
+
     rowList.add(
       Container(
         height: 160,
@@ -43,10 +65,7 @@ List<Widget> MemberWidgetList(BuildContext context, List<Member> MemberList) {
           style: ElevatedButton.styleFrom(primary: Color(0x00000000)),
           child: Stack(
             children: [
-              Image.asset(
-                MemberList[I].picture,
-                fit: BoxFit.scaleDown,
-              ),
+              userfoto,
               Container(
                 alignment: Alignment.bottomCenter,
                 child: Text(
@@ -208,11 +227,17 @@ class _MessagesPageState extends State<MessagesPage> {
   void LoadMembers() {
     print("carregando membros");
     List<Member> memberList = [];
-    print("membros carregados");
+
     getMatches().then((value) {
+      String foto = '';
+
+      print("membros carregados");
       setState(() {
         for (var member in value) {
-          memberList.add(Member(id: member[0], name: member[1]));
+          if (member[7] != null && member[7].isNotEmpty) {
+            foto = member[7];
+          }
+          memberList.add(Member(id: member[0], name: member[1], picture: foto));
         }
         if (memberList.isNotEmpty)
           _mainpart = ListView(children: MemberWidgetList(context, memberList));

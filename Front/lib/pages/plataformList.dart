@@ -44,7 +44,11 @@ class _plataformSelectPageState extends State<plataformSelectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("selecione jogos"),
+          backgroundColor: Color(0x44000000),
+          title: Text(
+            "selecione plataformas",
+            style: TextStyle(fontSize: 20, color: Colors.yellow),
+          ),
           actions: <Widget>[
             IconButton(
                 onPressed: () {
@@ -80,7 +84,7 @@ class _plataformSelectPageState extends State<plataformSelectPage> {
       widgetlist.add(Container(
         child: Row(children: [
           Checkbox(
-              checkColor: Colors.white,
+              checkColor: Colors.yellow,
               value: platlist[I].isChecked,
               onChanged: (bool? value) {
                 setState(() {

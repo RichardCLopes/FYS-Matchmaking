@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/RichardCLopes/FYS-Matchmaking/issues"
   },
-  "homepage": "https://github.com/RichardCLopes/FYS-Matchmaking#readme"
+  "homepage": "https://github.com/RichardCLopes/FYS-Matchmaking#readme",
+  "engines": {
+    "node": "16.x"
+  }
 }

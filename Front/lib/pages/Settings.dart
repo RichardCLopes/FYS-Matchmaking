@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:fys/builders.dart';
 import 'package:flutter/material.dart';
 import 'package:fys/pages/notifications.dart';
-import 'lib.dart';
+//import 'lib.dart';
 
 class SettingsMainPage extends StatelessWidget {
   const SettingsMainPage({Key? key}) : super(key: key);

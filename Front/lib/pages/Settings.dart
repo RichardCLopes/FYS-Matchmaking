@@ -10,7 +10,9 @@ class SettingsMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Color(0x44000000),
+      ),
       body: Column(
         children: [
           Container(
@@ -21,22 +23,22 @@ class SettingsMainPage extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               child: ListTile(
-                leading: Icon(
-                  Icons.account_circle,
-                  size: 50,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "CONTA",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'alagard',
+                  leading: Icon(
+                    Icons.account_circle,
+                    size: 50,
                     color: Colors.white,
-                    fontSize: 46,
                   ),
-                ),
-                onTap: () => PushScreen(context, accountSettingsPage()),
-              ),
+                  title: Text(
+                    "CONTA",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'alagard',
+                      color: Colors.white,
+                      fontSize: 46,
+                    ),
+                  ),
+                  onTap: () {} //=> PushScreen(context, accountSettingsPage()),
+                  ),
             ),
           ),
           Container(
@@ -47,22 +49,22 @@ class SettingsMainPage extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               child: ListTile(
-                leading: Icon(
-                  Icons.notifications_active,
-                  size: 50,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "NOTIFICAÇÕES",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'alagard',
+                  leading: Icon(
+                    Icons.notifications_active,
+                    size: 50,
                     color: Colors.white,
-                    fontSize: 46,
                   ),
-                ),
-                onTap: () => PushScreen(context, NotificationPage()),
-              ),
+                  title: Text(
+                    "NOTIFICAÇÕES",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'alagard',
+                      color: Colors.white,
+                      fontSize: 46,
+                    ),
+                  ),
+                  onTap: () {} //=> PushScreen(context, NotificationPage()),
+                  ),
             ),
           ),
           Container(

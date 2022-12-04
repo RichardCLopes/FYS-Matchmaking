@@ -7,7 +7,9 @@ class ConnectionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Color(0x44000000),
+      ),
       body: Column(
         children: [
           Container(
@@ -19,7 +21,7 @@ class ConnectionsPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               child: ListTile(
                 leading: Image.asset(
-                  "assets/images/placeholder.png",
+                  "assets/images/discord-logo.png",
                   fit: BoxFit.scaleDown,
                 ),
                 title: Text(
@@ -44,7 +46,7 @@ class ConnectionsPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               child: ListTile(
                 leading: Image.asset(
-                  "assets/images/placeholder.png",
+                  "assets/images/Steam_Logo.png",
                   fit: BoxFit.scaleDown,
                 ),
                 title: Text(
@@ -69,7 +71,7 @@ class ConnectionsPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               child: ListTile(
                 leading: Image.asset(
-                  "assets/images/placeholder.png",
+                  "assets/images/riot-logo.png",
                   fit: BoxFit.scaleDown,
                 ),
                 title: Text(
@@ -94,7 +96,7 @@ class ConnectionsPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               child: ListTile(
                 leading: Image.asset(
-                  "assets/images/placeholder.png",
+                  "assets/images/PlayStation-Emblema.png",
                   fit: BoxFit.scaleDown,
                 ),
                 title: Text(
@@ -119,7 +121,7 @@ class ConnectionsPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               child: ListTile(
                 leading: Image.asset(
-                  "assets/images/placeholder.png",
+                  "assets/images/Xbox_one_logo.png",
                   fit: BoxFit.scaleDown,
                 ),
                 title: Text(
